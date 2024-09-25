@@ -21,9 +21,9 @@
         $sumaSecundaria += $matriz[$i][count($matriz)-1-$i];
     }
     */
+
     for ($i = 0; $i < 4; $i++) {
         $sumaPrincipal += $matriz[$i][$i];
-        //$sumaSecundaria += $matriz[$i][count($matriz)-1-$i];
         $p++;
     }
     //$cont=count($matriz);
