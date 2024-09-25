@@ -9,4 +9,5 @@ for ($i=0; $i<5; $i++){
 }
 $media=$sum/5;//tambien sirve esto
 echo "La media de los valores es: ".($sum/5)."<br>";
+//var_dump($M);
 ?>
