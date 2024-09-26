@@ -1,8 +1,8 @@
 <?php
-echo $_POST['nombre1'];
+echo $_GET['nombre1'];
 echo "<br>";
-echo $_POST['apellidos1'];
+echo $_GET['apellidos1'];
 echo "<br>";
-echo $_POST['edad1'];
+echo $_GET['edad1'];
 
 ?>
