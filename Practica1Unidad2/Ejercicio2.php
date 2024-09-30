@@ -5,7 +5,6 @@
 $n1=3;
 $n2=16;
 $n3=2;
-  // Comparar los números para encontrar el mayor
 
     if ($n1 >= $n2 && $n1 >= $n3) {
         $mayor = $n1;
