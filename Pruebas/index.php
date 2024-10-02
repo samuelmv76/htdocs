@@ -1,5 +1,12 @@
 <?php
-for ($i=1; $i <= 10 ; $i++) { 
-	echo "<h1>Hola mundo, aqui estamos otra vez $i !!!<br></h1>";
-}
+$mascotas = array('Perro' => "Yunito",
+				'Gato' => "Wilson",
+				'Canario' => "Piolin",
+				'Tortuga' => "Mbappe (Donatello)",
+				'Mono' => "Winton",
+				'🐐' => "CR7"
+			);
+
+ 		foreach($mascotas as $item => $description)
+ 		echo "$item: $description<br>"; 
 ?>
