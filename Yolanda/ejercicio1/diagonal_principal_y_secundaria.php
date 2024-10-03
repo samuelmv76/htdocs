@@ -5,8 +5,8 @@ function sumarDiagonales($matriz) {
     $tamano = count($matriz);
 
     for ($i = 0; $i < $tamano; $i++) {
-        $sumaPrincipal += $matriz[$i][$i];
-        $sumaSecundaria += $matriz[$i][$tamano - $i - 1];
+        $sumaPrincipal += $matriz[$i][$i];//principal
+        $sumaSecundaria += $matriz[$i][$tamano - $i - 1];//secundaria
     }
 
     return $sumaPrincipal + $sumaSecundaria;
