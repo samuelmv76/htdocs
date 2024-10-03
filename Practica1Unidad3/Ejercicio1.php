@@ -18,7 +18,6 @@
         operador de concatenación haz que se muestre la frase: <<La alineación del
         equipo está compuesta por Crovic, Antic, Malic, Zulic y Rostrich.>>
 */
-/*a) */
 echo"a) <br>";
 $coches =array(32, 11, 45, 22, 78, -3, 9, 66, 5);
 echo $coches[5]."<br>";
@@ -32,5 +31,4 @@ echo $confirmado[0]."<br>";
 echo"d) <br>";
 $jugador=array("Crovic", "Antic", "Malic", "Zulic","Rostrich");
 echo "La alineación del equipo está por ".$jugador[0].", ".$jugador[1].", ".$jugador[2].", ".$jugador[3]." y ".$jugador[4].".";
-
 ?>
