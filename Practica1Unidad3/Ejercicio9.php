@@ -21,6 +21,7 @@
         echo"</br>";
     }
     $columnaMayor=0;
+    $posicionColumna=0;
     //SUMAR COLUMNAS
      echo "</br>";
      for ($i = 0; $i < 20; $i++) {
@@ -30,11 +31,23 @@
          }
          // IMPRIMIR TODAS LAS COLUMNAS 
          echo"Suma de la columna ".$i.": ".$sumaColumnas[$i]."</br>";
-        /*
+         //sumaColumnas es la posicion de cada columna sumada
+
             if($sumaColumnas[$i]>$columnaMayor){
-                $columnaMayor+=$sumaColumnas[$i];
+                $columnaMayor=$sumaColumnas[$i];
+                $posicionColumna=$i;
             }
-        */
-   }     
-   echo $columnaMayor;
+   }  
+   echo "--------------------------------</br>";
+   echo "-------RESULTADO-------</br>";
+   echo "--------------------------------";
+  //Visualizar columna correcta
+   echo "</br>";
+   for ($i = 0; $i < 20; $i++) {
+       echo" (";
+       echo $matriz[$i][$posicionColumna];
+       echo")";
+    }
+    
+   echo " Columna: ".$posicionColumna." Suma de la columna: ".$columnaMayor;
 ?>
