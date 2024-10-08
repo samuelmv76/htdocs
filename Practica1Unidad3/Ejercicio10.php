@@ -11,7 +11,6 @@
        $v[30] = 7; 
        $v['e'] = 99; 
        $v['hola'] = 43;
-
        foreach ($v as $array=> $importe) {
            echo "Array asociativo: $array, Importe: $importe<br>";
        }
