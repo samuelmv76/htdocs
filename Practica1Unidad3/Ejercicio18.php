@@ -1,7 +1,6 @@
 <?php
 /*
-    Rellena los siguientes tres arrays y júntalos en uno nuevo. Muéstralos por 
-    pantalla. Utiliza la función array_merge() 
+Realiza el ejercicio anterior pero con la funicón array_push().
 */
 $animales=array(
     'Lagartija',
@@ -25,8 +24,12 @@ $arboles=array(
     "Perro",
     34
 );
-$todos = array_merge($animales,$numeros,$arboles);
-$filas=count($todos);
+$todos=array();
+array_push($todos, ...$animales);
+array_push($todos, ...$numeros);
+array_push($todos, ...$arboles);
+
+$filas = count($todos);
 for ($i=0; $i < $filas; $i++) { 
     echo"Elemneto numero ".$i." ".$todos[$i]."</br>";
 }
