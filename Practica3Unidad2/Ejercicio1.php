@@ -10,26 +10,21 @@ function ecuacion($a,$b,$c) {
         $b=2;
         $c=-3; 
     */
-    $ecu=($b*2)-(4*$a*$c);
-    
-    if ($ecu<0){
-        return false;
+    // Verificar que a no sea cero
+    if ($a == 0) {
+        echo("El coeficiente 'a' no puede ser cero en una ecuación de segundo grado.");
     }
-    if ($ecu==0){
-        //echo "Hay solo una solucion (-b/2a)";
-        $respu="Hay solo una solucion (-b/2a)";
+    $resultado = ($b * 2) - (4 * $a * $c);
+    if ($resultado < 0) {
+        return false; // No hay soluciones
+    } elseif ($resultado == 0) {
+        $x = -$b / (2 * $a);
+        return [$x]; 
+    } else {
+        $x1 = (-$b + sqrt($resultado)) / (2 * $a);
+        $x2 = (-$b - sqrt($resultado)) / (2 * $a);
+        return [$x1, $x2]; 
     }
-    if($ecu>0){
-        $respu=array();
-        $ecu=(-$b+sqrt($b*2-4*$a*$c))/(2*$a);
-        //echo "resultado 1: $ecu </br>";
-        $respu[0]=$ecu;
-        $ecu=(-$b-sqrt($b*2-4*$a*$c))/(2*$a);
-        //echo "resultado 2: $ecu </br>";
-        $respu[1]=$ecu;
-    }
-    return $respu;
 }
-
-echo "Primer resultado: ",ecuacion(1,2,-3)[0],"</br>","Segundo resultado: ", ecuacion(1,2,-3)[1];
+//echo "Primer resultado: ",ecuacion(1,2,-3)[0],"</br>","Segundo resultado: ", ecuacion(1,2,-3)[1];
 ?>
