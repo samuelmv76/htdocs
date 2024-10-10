@@ -13,11 +13,11 @@ function esPalindromo($cadena) {
     // Comparar la cadena original con la invertida
     return $cadena === $cadenaInvertida;
 }
-
 $texto = "A man a plan a canal Panama";
+//$texto ="Treadeawd";
 if (esPalindromo($texto)) {
-    echo "$texto es un palíndromo.";
+    echo "$texto ,es un palíndromo.";
 } else {
-    echo "$texto no es un palíndromo.";
+    echo "$texto ,no es un palíndromo.";
 }
 ?>
