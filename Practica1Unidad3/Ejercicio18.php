@@ -28,7 +28,9 @@ $todos=array();
 array_push($todos, ...$animales);
 array_push($todos, ...$numeros);
 array_push($todos, ...$arboles);
-
+echo "------------</br>";
+echo "Ejercicio 18</br>";
+echo "------------</br>";
 $filas = count($todos);
 for ($i=0; $i < $filas; $i++) { 
     echo"Elemneto numero ".$i." ".$todos[$i]."</br>";
