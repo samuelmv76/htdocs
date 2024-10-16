@@ -1,7 +1,6 @@
 <?php
-    //include 'Vehiculo.php';
     include 'Coche.php';
-    //include 'Dos_Ruedas.php';
+    //include 'Dos_ruedas.php'; 
 
         $coche = new Coche("verde", 1400);
         $coche->añadir_persona(65);
