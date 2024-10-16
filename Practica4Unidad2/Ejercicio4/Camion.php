@@ -1,9 +1,29 @@
 <?php
 include 'Cuatro_ruedas.php';
-    class Coche extends Cuatro_ruedas{
+    class Camion extends Cuatro_ruedas{
         public $longitud;
-        function añadir_remolque($num){
-            
+
+        /**
+         * Get the value of longitud
+         */ 
+        public function getLongitud()
+        {
+                return $this->longitud;
+        }
+
+        /**
+         * Set the value of longitud
+         *
+         * @return  self
+         */ 
+        public function setLongitud($longitud)
+        {
+                $this->longitud = $longitud;
+
+                return $this;
+        }
+        function añadir_remolque($longitud){
+            $this->setLongitud($longitud);
         }
     }
 ?>
