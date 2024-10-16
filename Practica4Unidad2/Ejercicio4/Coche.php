@@ -1,5 +1,5 @@
 <?php
-include 'Cuatro_ruedas.php';
+include_once 'Cuatro_ruedas.php';
     class Coche extends Cuatro_ruedas{
         public $numero_cadenas_nieve;
 
