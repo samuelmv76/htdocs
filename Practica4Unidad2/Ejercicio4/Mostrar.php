@@ -17,10 +17,10 @@
         echo "Color de el dos ruedas: ".$dos_ruedas->getColor()." Peso: ". $coche->getPeso()."</br>";
 
         $camion = new Camion("azul",10000);
-        $camoin->setLongitud(10);
-        $camoin->setNumeroPuertas(2);
-        $camoin->añadir_remolque(5);
-        $camoin->añadir_persona(80);
+        $camion->setLongitud(10);
+        $camion->setNumero_Puertas(2);
+        $camion->añadir_remolque(5);
+        $camion->añadir_persona(80);
         echo"El color del camion es: ".$camion->getColor()."<br>";
         echo"El peso del camion es: ".$camion->getPeso()."<br>";
         echo"El peso del camion es: ".$camion->getNumero_Puertas()."<br>";
