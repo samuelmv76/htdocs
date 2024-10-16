@@ -26,5 +26,4 @@
         echo"El color del camion es: ".$camion->getColor()."<br>";
         echo"El peso del camion es: ".$camion->getPeso()."<br>";
         echo"El peso del camion es: ".$camion->getNumero_Puertas()."<br>";
-         
 ?>
