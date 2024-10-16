@@ -1,15 +1,18 @@
 <?php
-    include 'Vehiculo.php';
+    //include 'Vehiculo.php';
+    include 'Coche.php';
+    //include 'Dos_Ruedas.php';
+
         $coche = new Coche("verde", 1400);
         $coche->añadir_persona(65);
         $coche->añadir_persona(65);
         echo"El color del coche es: ".$coche->getColor()."<br>";
         echo"El peso del dos ruedas es: ".$coche->getPeso()."<br>";
         
-        $miVehiculo->setColor("rojo");
+        $coche->setColor("rojo");
         $coche->añadir_cadenas_nieve(2);
 
-        echo "Color de el coche: ".$miVehiculo->getColor()." Numero de cadenas: ". $coche->getNumero_cadenas_nieve()."</br>";
+        echo "Color de el coche: ".$coche->getColor()." Numero de cadenas: ". $coche->getNumero_cadenas_nieve()."</br>";
 
         $dos_ruedas = new Dos_ruedas("negro",120);
         $dos_ruedas->poner_gasolina(20);
