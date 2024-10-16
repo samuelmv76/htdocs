@@ -1,8 +1,8 @@
 <?php
     include 'Vehiculo.php';
-        $miVehiculo = new Vehiculo("verde", 1400);
-        $dos_ruedas->añadir_persona(65);
-        $dos_ruedas->añadir_persona(65);
+        $coche = new Coche("verde", 1400);
+        $coche->añadir_persona(65);
+        $coche->añadir_persona(65);
         echo"El color del coche es: ".$coche->getColor()."<br>";
         echo"El peso del dos ruedas es: ".$coche->getPeso()."<br>";
         
