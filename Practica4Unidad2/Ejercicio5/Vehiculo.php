@@ -16,6 +16,13 @@ abstract class Vehiculo {
     abstract function añadir_persona($peso_persona);
 
     public static  function ver_atributo($objeto){
+        /*
+        if (isset($objeto)){
+            foreach ($objeto as $key => $value) {
+                echo "key: ".$key." value: ".$value;
+            }  
+        }
+        */
         $obj=get_object_vars($objeto);
         
         foreach ($obj as $key => $value) {

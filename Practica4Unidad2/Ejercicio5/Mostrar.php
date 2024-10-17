@@ -5,20 +5,25 @@
     include_once 'Dos_ruedas.php';
     include_once 'Cuatro_ruedas.php';
 
+
+        /*
         $coche = new Coche("verde", 1400);
         $coche->añadir_persona(65);
         $coche->añadir_persona(65);
         echo"El color del coche es: ".$coche->getColor()."<br>";
         echo"El peso del coche es: ".$coche->getPeso()."<br>";
         
-        $coche->setColor("rojo");
+        $coche->repintar("Rojo");
         $coche->añadir_cadenas_nieve(2);
 
         echo "Color de el coche: ".$coche->getColor()." Numero de cadenas: ". $coche->getNumero_cadenas_nieve()."</br>";
-        
-        $dos_ruedas = new Dos_ruedas("negro",120);
-        $dos_ruedas -> añadir_persona(80);
-        $dos_ruedas->poner_gasolina(20);
+        */
+        $dos_ruedas = new Dos_ruedas("rojo",150);
+        $dos_ruedas -> añadir_persona(70);
+        echo "Peso total: ".$dos_ruedas->peso;
+        $dos_ruedas->setColor("verde");
+        //$dos_ruedas->repintar("verde");
+
         echo "</br>";
         echo "Color de el dos ruedas: ".$dos_ruedas->getColor()."</br> Peso de dos ruedas: ". $dos_ruedas->getPeso()."</br>";
         echo "</br>";
