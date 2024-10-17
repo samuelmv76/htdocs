@@ -11,7 +11,7 @@
         echo"El color del coche es: ".$coche->getColor()."<br>";
         echo"El peso del coche es: ".$coche->getPeso()."<br>";
         
-        $coche->setColor("rojo");
+        $coche->repintar("Rojo");
         $coche->añadir_cadenas_nieve(2);
 
         echo "Color de el coche: ".$coche->getColor()." Numero de cadenas: ". $coche->getNumero_cadenas_nieve()."</br>";

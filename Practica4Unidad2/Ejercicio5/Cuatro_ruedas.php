@@ -24,5 +24,9 @@ include_once 'Vehiculo.php';
         function repintar($color){
             $this->setColor($color);
         }
+        function añadir_persona($peso_persona)
+        {
+            $this->peso=$peso_persona+2;
+        }
     }
 ?>

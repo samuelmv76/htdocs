@@ -15,12 +15,13 @@
         $coche->añadir_cadenas_nieve(2);
 
         echo "Color de el coche: ".$coche->getColor()." Numero de cadenas: ". $coche->getNumero_cadenas_nieve()."</br>";
-
+        
         $dos_ruedas = new Dos_ruedas("negro",120);
+        $dos_ruedas -> añadir_persona(80);
         $dos_ruedas->poner_gasolina(20);
-
-        echo "Color de el dos ruedas: ".$dos_ruedas->getColor()." Peso: ". $dos_ruedas->getPeso()."</br>";
-
+        echo "</br>";
+        echo "Color de el dos ruedas: ".$dos_ruedas->getColor()."</br> Peso de dos ruedas: ". $dos_ruedas->getPeso()."</br>";
+        echo "</br>";
         $camion = new Camion("azul",10000);
         $camion->setLongitud(10);
         $camion->setNumero_Puertas(2);
