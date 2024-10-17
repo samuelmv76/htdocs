@@ -4,35 +4,19 @@
     include_once 'Coche.php';
     include_once 'Dos_ruedas.php';
     include_once 'Cuatro_ruedas.php';
-
-
-        /*
-        $coche = new Coche("verde", 1400);
-        $coche->añadir_persona(65);
-        $coche->añadir_persona(65);
-        echo"El color del coche es: ".$coche->getColor()."<br>";
-        echo"El peso del coche es: ".$coche->getPeso()."<br>";
-        
-        $coche->repintar("Rojo");
-        $coche->añadir_cadenas_nieve(2);
-
-        echo "Color de el coche: ".$coche->getColor()." Numero de cadenas: ". $coche->getNumero_cadenas_nieve()."</br>";
-        */
         $dos_ruedas = new Dos_ruedas("rojo",150);
         $dos_ruedas -> añadir_persona(70);
-        echo "Peso total: ".$dos_ruedas->peso;
+        echo "El peso de dos ruedas es: ".$dos_ruedas->peso."</br>";
         $dos_ruedas->setColor("verde");
         //$dos_ruedas->repintar("verde");
-
-        echo "</br>";
-        echo "Color de el dos ruedas: ".$dos_ruedas->getColor()."</br> Peso de dos ruedas: ". $dos_ruedas->getPeso()."</br>";
-        echo "</br>";
-        $camion = new Camion("azul",10000);
-        $camion->setLongitud(10);
+        $dos_ruedas->setCilindrada(1000);
+        $dos_ruedas->ver_atributo($dos_ruedas);
+        //Cree un camión blanco de 6000 kg.
+        $camion = new Camion("blanco",6000);
+        //Añada una persona de 84 kg. Vuelva a pintarlo, en color azul. Incluya 2 puertas. 
+        $camion -> añadir_persona(84);
+        $camion->repintar("azul");
         $camion->setNumero_Puertas(2);
-        $camion->añadir_remolque(5);
-        $camion->añadir_persona(80);
-        echo"El color del camion es: ".$camion->getColor()."<br>";
-        echo"El peso del camion es: ".$camion->getPeso()."<br>";
-        echo"El peso del camion es: ".$camion->getNumero_Puertas()."<br>";
+        echo"<br>";
+        $camion->ver_atributo($camion);
 ?>

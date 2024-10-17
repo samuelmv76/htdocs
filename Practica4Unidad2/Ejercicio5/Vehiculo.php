@@ -26,7 +26,7 @@ abstract class Vehiculo {
         $obj=get_object_vars($objeto);
         
         foreach ($obj as $key => $value) {
-            echo "key: ".$key." value: ".$value;
+            echo $key." valor: ".$value."</br>";
         }
         /* 
         return "Color: ".$obj."</br>".
