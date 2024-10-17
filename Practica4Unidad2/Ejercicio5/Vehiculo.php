@@ -1,5 +1,5 @@
 <?php
-class Vehiculo {
+abstract class Vehiculo {
     public $color;
     public $peso;
 
@@ -12,10 +12,9 @@ class Vehiculo {
     public function circula() {
         echo "El vehículo circula</br>";
     }
-    function añadir_persona($peso_persona) {
-        $this->peso+=$peso_persona;
-        echo"Se sube una persona</br>";
-    }
+    
+    abstract function añadir_persona($peso_persona);
+
 
     /**
      * Get the value of color
