@@ -2,7 +2,6 @@
 include_once 'Cuatro_ruedas.php';
     class Coche extends Cuatro_ruedas{
         public $numero_cadenas_nieve;
-
         /**
          * Get the value of numero_cadenas_nieve
          */ 
