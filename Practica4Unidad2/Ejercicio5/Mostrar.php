@@ -13,10 +13,11 @@
         $dos_ruedas->ver_atributo($dos_ruedas);
         //Cree un camión blanco de 6000 kg.
         $camion = new Camion("blanco",6000);
+        
         //Añada una persona de 84 kg. Vuelva a pintarlo, en color azul. Incluya 2 puertas. 
         $camion -> añadir_persona(84);
         $camion->repintar("azul");
-        $camion->setNumero_Puertas(2);
+        //$camion->setNumero_Puertas(2);
         echo"<br>";
         $camion->ver_atributo($camion);
 ?>

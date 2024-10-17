@@ -5,6 +5,11 @@ include_once 'Vehiculo.php';
         /**
          * Get the value of numero_puertas
          */ 
+        public function __construct($color, $peso, $numero_puertas)
+        {
+            //parent::__construct($color, $peso);
+            $this->numero_puertas = $numero_puertas;
+        }
         public function getNumero_puertas()
         {
                 return $this->numero_puertas;
