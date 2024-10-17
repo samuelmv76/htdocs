@@ -15,7 +15,7 @@
         $coche->añadir_cadenas_nieve(2);
 
         echo "Color de el coche: ".$coche->getColor()." Numero de cadenas: ". $coche->getNumero_cadenas_nieve()."</br>";
-        
+
         $dos_ruedas = new Dos_ruedas("negro",120);
         $dos_ruedas->poner_gasolina(20);
 
