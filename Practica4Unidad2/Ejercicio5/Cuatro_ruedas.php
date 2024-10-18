@@ -30,7 +30,7 @@ include_once 'Vehiculo.php';
         }
         function añadir_persona($peso_persona)
         {
-            $this->peso=$this->getPeso()+$peso_persona+2;
+            $this->peso=$this->getPeso()+$peso_persona;
         }
     }
 ?>
