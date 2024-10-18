@@ -2,7 +2,16 @@
 abstract class Vehiculo {
     public $color;
     public $peso;
+    
+/*
+    -Añada una constante SALTO_DE_LINEA =’<br />’ en la clase Vehículo y 
+    modifique el método ver_atributo($objeto) para sustituir los ’<br />’.
 
+    -Añada un atributo estático protegido en esta clase que se llame 
+    numero_cambio_color e inicialice a 0.  
+*/
+    static protected $numero_cambio_color = 0;
+    const SALTO_DE_LINEA ='<br />';
     public function __construct($color,$peso)
     {
         $this->color = $color;
@@ -26,7 +35,7 @@ abstract class Vehiculo {
         $obj=get_object_vars($objeto);
         
         foreach ($obj as $key => $value) {
-            echo $key." valor: ".$value."</br>";
+            echo "El peso de " . get_class($objeto) . " es: " . $objeto->peso . self::SALTO_DE_LINEA;
         }
         /* 
         return "Color: ".$obj."</br>".
@@ -54,7 +63,7 @@ abstract class Vehiculo {
     public function setColor($color)
     {
         $this->color = $color;
-
+            self::$numero_cambio_color++;
         return $this;
     }
 
@@ -71,11 +80,13 @@ abstract class Vehiculo {
      *
      * @return  self
      */ 
-    public function setPeso($peso)
-    {
-        $this->peso = $peso;
-
-        return $this;
+    public function setPeso($peso) {
+        if ($peso <= 2100) {
+            $this->peso = $peso;
+        } else {
+            $this->peso = 2100;
+            echo "El peso máximo permitido es de 2100 kg.";
+        }
     }
     public function __toString() {
         return "Color " . $this->color . " Peso: " . $this->peso . " kg.</br>";
