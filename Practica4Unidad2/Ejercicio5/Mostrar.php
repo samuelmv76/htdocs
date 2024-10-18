@@ -12,7 +12,7 @@
         $dos_ruedas->setCilindrada(1000);
         $dos_ruedas->ver_atributo($dos_ruedas);
         //Cree un camión blanco de 6000 kg.
-        $camion = new Camion("blanco",6000,/*Numero de puertas*/2,/*Longitud*/10);
+        $camion = new Camion("blanco",6000,/*Numero de puertas*/2,/*Longitud*/null);
         
         //Añada una persona de 84 kg. Vuelva a pintarlo, en color azul. Incluya 2 puertas. 
         $camion -> añadir_persona(84);
