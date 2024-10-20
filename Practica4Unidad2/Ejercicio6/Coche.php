@@ -2,7 +2,9 @@
 include_once 'Cuatro_ruedas.php';
     class Coche extends Cuatro_ruedas{
         public $numero_cadenas_nieve;
-        
+        public function __construct($color, $peso, $numero_ruedas) {
+            parent::__construct($color, $peso, $numero_ruedas);
+        }
         public function añadir_persona($peso_persona) {
             parent::añadir_persona($peso_persona); // llama al método añadir_persona de la clase Cuatro_ruedas
             if ($this->peso >= 1500 && $this->numero_cadenas_nieve <= 2) {

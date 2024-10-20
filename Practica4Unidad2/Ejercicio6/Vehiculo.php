@@ -35,16 +35,8 @@ abstract class Vehiculo {
         $obj=get_object_vars($objeto);
         
         foreach ($obj as $key => $value) {
-            echo "El peso de " . get_class($objeto) . " es: " . $objeto->peso . self::SALTO_DE_LINEA;
+            echo $key." valor: ".$value.self::SALTO_DE_LINEA;
         }
-        /* 
-        return "Color: ".$obj."</br>".
-                "Peso: ".$objeto->peso."</br>".
-                "Número de puertas: ".$objeto->numero_puertas. "</br>".
-                "Cilindrada: ".$objeto->cilindrada."</br>".
-                "Longitud: ".$objeto->longitud."</br>".
-                "Número de cadenas para la nieve.".$objeto->numero_cadenas_nieve."</br>";
-        */
     }
 
     /**
