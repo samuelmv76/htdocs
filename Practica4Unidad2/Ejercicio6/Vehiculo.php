@@ -35,8 +35,9 @@ abstract class Vehiculo {
         $obj=get_object_vars($objeto);
         
         foreach ($obj as $key => $value) {
-            echo $key." valor: ".$value.self::SALTO_DE_LINEA;
+            echo $key . ": " . $value . self::SALTO_DE_LINEA;
         }
+        echo"El color se ha cambiado: ".self::$numero_cambio_color. " vez. </br>";
     }
 
     /**
