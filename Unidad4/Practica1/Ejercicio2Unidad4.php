@@ -1,4 +1,4 @@
 <?php
-    $seleccion = $_POST['sele'];
-    
+    $seleccion = $_POST['edad'];
+    echo $seleccion;
 ?>
