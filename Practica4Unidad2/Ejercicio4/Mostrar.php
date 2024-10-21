@@ -5,7 +5,7 @@
     include_once 'Dos_ruedas.php';
     include_once 'Cuatro_ruedas.php';
 
-        $coche = new Coche("verde", 1400);
+        $coche = new Coche("verde", 1400,null);
         $coche->añadir_persona(65);
         $coche->añadir_persona(65);
         echo"El color del coche es: ".$coche->getColor()."<br>";
@@ -22,7 +22,7 @@
         echo "</br>";
         echo "Color de el dos ruedas: ".$dos_ruedas->getColor()."</br> Peso de dos ruedas: ". $dos_ruedas->getPeso()."</br>";
         echo "</br>";
-        $camion = new Camion("azul",10000);
+        $camion = new Camion("azul",10000,null,null);
         $camion->setLongitud(10);
         $camion->setNumero_Puertas(2);
         $camion->añadir_remolque(5);
