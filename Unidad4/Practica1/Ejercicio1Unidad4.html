@@ -7,28 +7,14 @@
     </head>
     <body>
     <h2>Formulario</h2>
-        <form action="Ejercicio1Unidad4.php" method="get">
+        <form action="Ejercicio1Unidad4.php" method="post">
             <label for="nombre">A:</label><br>
-            <input type="text" id="nombre" name="nombre1" required><br><br>
+            <input type="text" id="num1" name="num1" required><br><br>
 
             <label for="apellidos">B:</label><br>
-            <input type="text" id="apellidos" name="apellidos1" required><br><br>
+            <input type="text" id="num2" name="num2" required><br><br>
 
             <input type="submit" value="enviar">
         </form>
     </body>
     </html>
-    <?php
-    /*
-        Construir  una  calculadora,  se  ha  de  resolver  con  dos  script,  el  primero  muestra  el 
-        formulario y el segundo el resultado. Al pulsar el botón ENVIAR se mostrará la suma 
-        de los valores introducidos en las cajas de texto.
-    */
-
-
-
-    $num1 = $_POST['num1'];
-    $num2 = $_POST['num2'];
-    $suma = $num1 + $num2;
-    echo "La suma de los dos valores es: $suma";
-?>
