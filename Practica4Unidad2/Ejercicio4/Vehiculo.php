@@ -14,7 +14,7 @@ class Vehiculo {
     }
     function añadir_persona($peso_persona) {
         $this->peso+=$peso_persona;
-        echo"Se sube una persona</br>";
+        //echo"Se sube una persona</br>";
     }
 
     /**

@@ -11,16 +11,16 @@
         echo"El color del coche es: ".$coche->getColor()."<br>";
         echo"El peso del coche es: ".$coche->getPeso()."<br>";
         
-        $coche->repintar("Rojo");
+        $coche->repintar("rojo");
         $coche->añadir_cadenas_nieve(2);
 
-        echo "Color de el coche: ".$coche->getColor()." Numero de cadenas: ". $coche->getNumero_cadenas_nieve()."</br>";
+        echo "El color del coche es: ".$coche->getColor()."<br> El numero de cadenas de cadenas para la nieve del coche es: ". $coche->getNumero_cadenas_nieve()."</br>";
         
         $dos_ruedas = new Dos_ruedas("negro",120);
         $dos_ruedas -> añadir_persona(80);
         $dos_ruedas->poner_gasolina(20);
         echo "</br>";
-        echo "Color de el dos ruedas: ".$dos_ruedas->getColor()."</br> Peso de dos ruedas: ". $dos_ruedas->getPeso()."</br>";
+        echo "El color del dos ruedas es: ".$dos_ruedas->getColor()."</br> El nuevo peso del coche es: ". $dos_ruedas->getPeso()."</br>";
         echo "</br>";
         $camion = new Camion("azul",10000,null,null);
         $camion->setLongitud(10);
@@ -29,5 +29,6 @@
         $camion->añadir_persona(80);
         echo"El color del camion es: ".$camion->getColor()."<br>";
         echo"El peso del camion es: ".$camion->getPeso()."<br>";
-        echo"El peso del camion es: ".$camion->getNumero_Puertas()."<br>";
+        echo"La longitud del camion es:".$camion->getLongitud()."<br>";
+        echo"El número de puertas del camión es: ".$camion->getNumero_Puertas()."<br>";
 ?>
