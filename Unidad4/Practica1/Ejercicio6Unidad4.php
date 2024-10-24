@@ -32,6 +32,7 @@
         }
         echo "<br>la suma es $suma<br>";
         // Repetir form
+        
         echo '<form action="Ejercicio6Unidad4.php" method="post">';
         for ($i = 0; $i <= 8; $i++) { 
             echo '
