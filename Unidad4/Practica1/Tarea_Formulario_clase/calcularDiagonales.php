@@ -6,20 +6,20 @@ function suma_elementos($matriz) {
         }
         echo "<br>";
     }
-
-    echo "Diagonal Principal: ";
     $tamano = count($matriz);
+    //diagonal principal
     for ($i = 0; $i < $tamano; $i++) {
-        $principal = $matriz[$i][$i];
-        echo $principal . " ";
+        $principal[$i] = $matriz[$i][$i];
     }
-    echo "<br>Diagonal Secundaria: ";
+    //diagonal secundaria
     for ($i = 0; $i < $tamano; $i++) {
-        $secundaria = $matriz[$i][$tamano - $i - 1];
-        echo $secundaria . " ";
+        $secundaria[$i] = $matriz[$i][$tamano - $i - 1];
     }
+    $sumaPrincipal=array_sum($principal);
+    $sumaSecunadaria=array_sum($secundaria);
+    echo"Suma de la diagonal principal: ".$sumaPrincipal;
+    echo"Suma de la diagonal secundaria: ".$sumaSecunadaria;
 }
-
 if (isset($_POST['valores'])) {
     $matriz = $_POST['valores'];
     suma_elementos($matriz);
