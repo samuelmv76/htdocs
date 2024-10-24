@@ -9,26 +9,29 @@
 <?php
     // Verificar si se ha enviado el formulario
     if (isset($_POST['submit'])) {
-        echo "el vector tiene "."a"." elementos";
+        
         // Inicializamos el array de datos
         $datos_formulario = array();
-        
+
         // Llenar el array con los datos del formulario y calcular la suma
         $suma = 0;
         for ($i = 0; $i <= 8; $i++) {
             // Guardamos cada valor en el array, si no se ingresó nada lo dejamos como 0
-            $valor = isset($_POST[$i]) ? (int)$_POST[$i] : 0;
+            //$valor = isset($_POST[$i]) ? (int)$_POST[$i] : 0;
+            $valor = $_POST[$i];
             $datos_formulario[] = $valor;
             // Sumamos el valor
             $suma += $valor;
         }
+        $numero_de_elementos=count($datos_formulario);
+        echo "el vector tiene ".count($datos_formulario)." elementos </br>";
 
         // Mostrar los valores del formulario y la suma
         foreach ($datos_formulario as $key => $value) {
-            echo "$key =  $value <br>";
+            echo $key." = ". $value."</br>";
         }
         echo "<br>la suma es $suma<br>";
-        //Repetir form
+        // Repetir form
         echo '<form action="Ejercicio5Unidad4.php" method="post">';
         for ($i = 0; $i <= 8; $i++) { 
             echo '
@@ -38,7 +41,6 @@
         echo '<input type="submit" name="submit" value="Enviar">';
         echo '</form>';
     }else{
-        // Mostrar el formulario
         echo '<form action="Ejercicio5Unidad4.php" method="post">';
         for ($i = 0; $i <= 8; $i++) { 
             echo '
@@ -48,7 +50,6 @@
         echo '<input type="submit" name="submit" value="Enviar">';
         echo '</form>';
     }
-
 ?>
 </body>
 </html>
