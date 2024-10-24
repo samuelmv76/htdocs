@@ -17,7 +17,7 @@ function suma_elementos($matriz) {
     }
     $sumaPrincipal=array_sum($principal);
     $sumaSecunadaria=array_sum($secundaria);
-    echo"Suma de la diagonal principal: ".$sumaPrincipal;
+    echo"Suma de la diagonal principal: ".$sumaPrincipal."</br>";
     echo"Suma de la diagonal secundaria: ".$sumaSecunadaria;
 }
 if (isset($_POST['valores'])) {
