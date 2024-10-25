@@ -52,7 +52,7 @@
 <?php
 // Comprobar si el formulario ha sido enviado comprobando si las variables existen
 if (isset($_POST['mes']) && isset($_POST['anio'])) {
-    $mes = intval($_POST['mes']);
+    $mes = intval($_POST['mes']);//comprobar que los valores sean numericos
     $anio = intval($_POST['anio']);
 
     // Validar mes y año
