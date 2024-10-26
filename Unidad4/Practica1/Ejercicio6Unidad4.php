@@ -17,13 +17,13 @@
 <?php
     // Verificar si se ha enviado el formulario
     if (isset($_POST['submit'])) {
-        
         // Inicializamos el array de datos
         $datos_formulario = array();
-
+        //recibir numero de elemento de un input oculto
+        $numero_de_elementos2=$_POST['numero_de_elementos'];
         // Llenar el array con los datos del formulario y calcular la suma
         $suma = 0;
-        for ($i = 0; $i <= 8; $i++) {
+        for ($i = 0; $i <$numero_de_elementos2; $i++) {
             // Guardamos cada valor en el array, si no se ingresó nada lo dejamos como 0
             //$valor = isset($_POST[$i]) ? (int)$_POST[$i] : 0;
             $valor = $_POST[$i];
@@ -40,14 +40,26 @@
         }
         echo "<br>la suma es $suma<br>";
         // Repetir form
-        echo '<form action="Ejercicio6Unidad4.php" method="post">';
-        for ($i = 0; $i <= 8; $i++) { 
-            echo '
-                <label for="nombre">'.$i.':</label>
-                <input type="text" id="'.$i.'" name="'.$i.'"><br>';
+        //Cambios
+        echo'<form action="Ejercicio6Unidad4.php" method="post">';
+        echo '
+            <label for="nombre">Numero de Elementos:</label>
+                <input type="text" id="numero" name="numero"><br>';
+                echo '<input type="submit" name="Aceptar" value="Aceptar">';
+        echo'</form>';
+        if(isset($_POST['Aceptar'])){
+            $numero_de_elementos=$_POST['numero'];  
+        //
+            echo '<form action="Ejercicio6Unidad4.php" method="post">';
+            for ($i = 0; $i < $numero_de_elementos; $i++) { 
+                echo '
+                    <label for="nombre">'.($i+1).':</label>
+                    <input type="text" id="'.$i.'" name="'.$i.'"><br>';
+
+            }
+            echo '<input type="submit" name="submit" value="Enviar">';
+            echo '</form>';
         }
-        echo '<input type="submit" name="submit" value="Enviar">';
-        echo '</form>';
     }else{
         //Cambios
         echo'<form action="Ejercicio6Unidad4.php" method="post">';
@@ -60,11 +72,13 @@
             $numero_de_elementos=$_POST['numero'];  
         //
             echo '<form action="Ejercicio6Unidad4.php" method="post">';
-            for ($i = 0; $i <= $numero_de_elementos; $i++) { 
+            for ($i = 0; $i < $numero_de_elementos; $i++) { 
                 echo '
-                    <label for="nombre">'.$i.':</label>
+                    <label for="nombre">'.($i+1).':</label>
                     <input type="text" id="'.$i.'" name="'.$i.'"><br>';
             }
+             // Enviar el número de elementos también como un campo oculto
+            echo '<input type="hidden" name="numero_de_elementos" value="'.$numero_de_elementos.'">';
             echo '<input type="submit" name="submit" value="Enviar">';
             echo '</form>';
         }
