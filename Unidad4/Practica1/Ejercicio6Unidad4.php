@@ -1,3 +1,11 @@
+<?php
+/*
+    Se  ha  de  crear  un  formulario  con  una  caja  de  texto  y  un  botón  ACEPTAR,
+    según  el valor  introducido  en  la  caja  de  texto  se  han  de  mostrar  los  elementos  indicados
+    ,a partir  de  ahí  la  web  se  ha  de  comportar  igual  que  el  ejercicio  anterior,  se  ha  de 
+    resolver con un sólo script 
+*/
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +40,6 @@
         }
         echo "<br>la suma es $suma<br>";
         // Repetir form
-        
         echo '<form action="Ejercicio6Unidad4.php" method="post">';
         for ($i = 0; $i <= 8; $i++) { 
             echo '
@@ -42,13 +49,25 @@
         echo '<input type="submit" name="submit" value="Enviar">';
         echo '</form>';
     }else{
-        echo '<form action="Ejercicio6Unidad4.php" method="post">';
-            echo '
-            <label for="nombre">'.'Numero de elementos: '.':</label>
-            <input type="text" id="'.$i.'" name="'.$i.'"><br>';
-
-        echo '<input type="submit" name="submit" value="Enviar">';
-        echo '</form>';
+        //Cambios
+        echo'<form action="Ejercicio6Unidad4.php" method="post">';
+        echo '
+            <label for="nombre">Numero de Elementos:</label>
+                <input type="text" id="numero" name="numero"><br>';
+                echo '<input type="submit" name="Aceptar" value="Aceptar">';
+        echo'</form>';
+        if(isset($_POST['Aceptar'])){
+            $numero_de_elementos=$_POST['numero'];  
+        //
+            echo '<form action="Ejercicio6Unidad4.php" method="post">';
+            for ($i = 0; $i <= $numero_de_elementos; $i++) { 
+                echo '
+                    <label for="nombre">'.$i.':</label>
+                    <input type="text" id="'.$i.'" name="'.$i.'"><br>';
+            }
+            echo '<input type="submit" name="submit" value="Enviar">';
+            echo '</form>';
+        }
     }
 ?>
 </body>
