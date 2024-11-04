@@ -32,14 +32,14 @@
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="name" name="name" required><br><br>
     
-                <label for="email">E-mail:</label><br>
+                <label for="email">E-mail:</label>
                 <input type="text" id="email" name="email" required><br><br>
     
-                <label for="website">Website:</label><br>
+                <label for="website">Website:</label>
                 <input type="text" id="website" name="website" required><br><br>
     
                 <!-- Campo Comment -->
-                <label for="comment">Comment:</label><br>
+                <label for="comment">Comment:</label>
                 <textarea id="comment" name="comment" rows="4" cols="50" placeholder=""></textarea><br><br>
                 
                 <!-- Campo Gender -->
@@ -70,14 +70,14 @@
             <label for="nombre">Nombre:</label>
             <input type="text" id="name" name="name" required><br><br>
 
-            <label for="email">E-mail:</label><br>
+            <label for="email">E-mail:</label>
             <input type="text" id="email" name="email" required><br><br>
 
-            <label for="website">Website:</label><br>
+            <label for="website">Website:</label>
             <input type="text" id="website" name="website" required><br><br>
 
             <!-- Campo Comment -->
-            <label for="comment">Comment:</label><br>
+            <label for="comment">Comment:</label>
             <textarea id="comment" name="comment" rows="4" cols="50" placeholder=""></textarea><br><br>
             
             <!-- Campo Gender -->
