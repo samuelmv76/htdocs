@@ -10,7 +10,7 @@
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
@@ -30,28 +30,17 @@
     </style>
 </head>
 <body>
-
 <?php
-session_start();
-// Lista de colores
-$colors = ['red', 'blue', 'green', 'yellow'];
+session_start(); // Inicia la sesión
 
-for ($i=0; $i <4 ; $i++) { 
-    // Selección aleatoria de un color
-    $randomColor[$i] = $colors[array_rand($colors)];
-?>
-    <div class="circle" style="background-color: <?php echo $randomColor[$i]; ?>;">
-        <?php echo ucfirst($randomColor[$i]); /*Primera letra en mayuscula*/?> 
-    </div>
-<?php 
+// Verificar si el array está disponible en la sesión
+if (isset($_SESSION['colores_adivinar'])) {
+    $colorAdivinar= $_SESSION['colores_adivinar'] ;
 }
-    // Guardar el array en una variable de sesión
-    $_SESSION['colores_adivinar'] = $randomColor;
+    //const negro ="black";
+    foreach ($colorAdivinar as $key => $value) {
+        echo" key: ".$key." value: ".$value ;       
+    }
 ?>
-
-<!-- Formulario para recargar la página y generar un nuevo color -->
-<form action="pregunta.php" method="POST">
-    <button class="button" name="boton" type="submit">Enviar</button>
-</form>
 </body>
 </html>
