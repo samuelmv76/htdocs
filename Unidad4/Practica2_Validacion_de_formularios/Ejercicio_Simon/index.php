@@ -47,6 +47,7 @@ for ($i=0; $i <4 ; $i++) {
 }
     // Guardar el array en una variable de sesión
     $_SESSION['colores_adivinar'] = $randomColor;
+    $_SESSION['colores'] = $colors;
 ?>
 
 <!-- Formulario para recargar la página y generar un nuevo color -->
