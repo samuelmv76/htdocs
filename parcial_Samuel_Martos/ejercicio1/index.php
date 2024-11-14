@@ -12,18 +12,17 @@
         $cont=0;
         if(isset($_POST['calcular'])){
             //validar
-            for ($i=0;$i<$cont;$i++){
-                
-            }
+            /* 
             if($_POST["valor$i"]>100 || $_POST["valor$i"]<1){
                 echo'El valor tiene que estar entre 1 y 100';
             }else{
+            */
                 //resultado
                 for ($i=1; $i < 7; $i++) { 
                     $variable[$i]=$_POST["valor$i"];
                     echo $variable[$i]." = ".decbin($variable[$i])."<br>";
                 }   
-            }
+            //}
         }else{
             for ($i=0; $i < 3; $i++) { echo '<br>';
                 for ($j=0; $j <2 ; $j++) { 
