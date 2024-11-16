@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ejercicio2</title>
 </head>
 <body>
     <h1>Adivina el número decimal</h1>
@@ -12,10 +12,17 @@
     for ($i=0; $i <4 ; $i++) { 
         $num[$i]=rand(0,1);
     }
+    //imprimir al reves
+    for ($i=3; $i >=0 ; $i--) { 
+        echo $num[$i];
+    }
+    //echo'<br>';
     //imprimir los numeros del array
+    /*
     foreach ($num as $key => $value) {
         echo $value;
     }
+    */
   
     ?></h2>
     <?php
@@ -24,10 +31,6 @@
         for ($i=4; $i >= 0; $i--) { 
             $potencias[$i]=2**$i;
         }
-        echo $potencias[0];
-        echo $potencias[1];
-        echo $potencias[2];
-        echo $potencias[3];
         //Representación gráfica de las cartas. (1 punto)
         for ($i=3; $i >= 0; $i--) { 
             if($num[$i]==1){
@@ -53,11 +56,27 @@
                 echo '<img src="blanco.jpg">';
             }
         }
+        
 ?>     
     <form action="ejercicio21.php" method="post">
         <label for="nombre">Numero decimal: </label>
-        <input type="text" id="numdecimal" name="numdecimal" required><br><br>
-        <input type="submit" name="submit" value="submit">
+        <input type="text" id="numdecimal" name="numdecimal" required>
+        <input type="submit" name="submit" value="Enviar">
     </form>
+   <?php
+    //$_SESSION['numero']=$num;
+    //Guardar el número generado en decimal en sesiones para poder 
+        //compararlo en el introducido por el usuario  en un formulario. (1 punto)
+        //pasar $num[] a decimal $potencias[]
+        //potencias 8421
+        $decimal=0;
+        for ($i=0; $i < 4; $i++) { 
+            if($num[$i]==1){
+                $decimal+=$potencias[$i];
+            }    
+        }
+        //echo $decimal;
+        $_SESSION['decimalcorrecto']=$decimal;
+   ?>
 </body>
 </html>
