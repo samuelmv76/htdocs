@@ -24,8 +24,12 @@
         for ($i=4; $i >= 0; $i--) { 
             $potencias[$i]=2**$i;
         }
+        echo $potencias[0];
+        echo $potencias[1];
+        echo $potencias[2];
+        echo $potencias[3];
         //Representación gráfica de las cartas. (1 punto)
-        for ($i=0; $i < 4; $i++) { 
+        for ($i=3; $i >= 0; $i--) { 
             if($num[$i]==1){
                 //pinta la carta
                 //echo '<img src="Uno.jpg">';
