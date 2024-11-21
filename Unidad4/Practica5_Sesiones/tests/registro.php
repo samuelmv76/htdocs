@@ -12,10 +12,10 @@
         <br>
         <br>
         <label for="">Contraseña: </label>
-        <input type="password" name="contra">
+        <input type="password" name="contra" required>
         <br>
         <label for="">Confirmar contraseña: </label>
-        <input type="password" name="contra2">
+        <input type="password" name="contra2" required>
         <br>
         <label for="">ROL: </label><br>
             <input type="radio" name="estandar">
