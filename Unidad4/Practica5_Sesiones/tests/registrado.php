@@ -13,7 +13,9 @@
     <br>
     <a href="acceso.php">Acceder</a>
         ';}else{
-            
+            echo'    <h2>NO Se ha registrado correctamente</h2>
+    <br>
+    <a href="acceso.php">Acceder</a>';
         }
     }
 
