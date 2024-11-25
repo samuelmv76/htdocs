@@ -11,10 +11,10 @@
 
     for ($j = 0 ; $j < $rows ; ++$j) {
         $row = $result->fetch_assoc();
-        echo 'ID: ' . htmlspecialchars($row['id']) . '<br>';
+        //echo 'ID: ' . htmlspecialchars($row['id']) . '<br>';
         echo 'Username: ' . htmlspecialchars($row['usu']) . '<br>';
         echo 'Contra: ' . htmlspecialchars($row['contra']) . '<br>';
-        echo 'Rol: ' . htmlspecialchars($row['rol']) . '<br><br>';
+        //echo 'Rol: ' . htmlspecialchars($row['rol']) . '<br><br>';
     }
 
     $result->close();
