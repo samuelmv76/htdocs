@@ -19,4 +19,5 @@
 
     $result->close();
     $connection->close();
+    //ir tabla usuarios formulario y guardar en la bd
 ?> 
