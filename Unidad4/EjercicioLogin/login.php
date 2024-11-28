@@ -28,14 +28,17 @@ session_start();
         $rows = $result->num_rows;
         //si no devuelve nada else
         if ($rows > 0) {
-            echo'Usuario correcto';
+            echo'Usuario correcto <br>';
             for ($j = 0 ; $j < $rows ; ++$j) {
-                $row = $result->fetch_assoc();
+                $row = $result->fetch_assoc();  
                 echo 'Username: ' . htmlspecialchars($row['usu']) . '<br>';
                 echo 'Contra: ' . htmlspecialchars($row['contra']) . '<br>';
             }
+            echo '<a href="index.php">Volver</a>';
+            exit;
         } else {
-            echo "<p style='color:red;'>Usuario o contraseña incorrectos. Por favor, intente nuevamente.</p>";
+            echo "<p>Usuario o contraseña incorrectos</p>";
+            
         }
         $result->close();
         $connection->close();
