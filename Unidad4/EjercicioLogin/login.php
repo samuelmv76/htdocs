@@ -44,12 +44,17 @@ session_start();
         $connection->close();
     }
 ?>
-<form method="post">
-    <label for="usuario">Usuario:</label>
-    <input type="text" id="usuario" name="usuario" required><br><br>
-    <label for="contra">Contraseña:</label>
-    <input type="password" id="contra" name="contra" required><br><br>
-    <button type="submit" name="submit">Ingresar</button>
-</form>
+    <form  action="login.php" method="post">
+        <label for="">Usuario: </label>
+        <input type="text" name="usuario" required>
+        <br>
+        <br>
+        <label for="">Contraseña: </label>
+        <input type="password" name="contra" required>
+        <br>
+        <a href="registro.php">Registrarse</a>
+        <br>
+        <button type="submit" name="submit">Entrar</button>
+    </form>
 </body>
 </html>
