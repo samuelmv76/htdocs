@@ -53,7 +53,7 @@ echo '<form action="respuesta.php" method="POST">';
 $colores= $_SESSION['colores'] ;
 // Crear un botón para cada color y que el boton sea del color correspondiente
 foreach ($colores as $key => $value) { 
-    echo '<button class="button" name="'.$key.'" type="">'.$value.'</button>';
+    echo '<button class="button" name="'.$key.'" type="" background-color="'.$value.'">'.$value.'</button>';
 }
 
 echo '<br><br> <input type="submit" value="Enviar">';

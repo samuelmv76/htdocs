@@ -55,7 +55,6 @@
               echo '<br>';
 
               
-
 // Lista de colores
 $colors = ['red', 'blue', 'green', 'yellow'];
 
@@ -73,7 +72,7 @@ for ($i=0; $i <4 ; $i++) {
     $_SESSION['colores'] = $colors;
 
               echo '<!-- Formulario para recargar la página y generar un nuevo color -->
-<form action="pregunta.php" method="POST">
+<form action="jugar.php" method="POST">
     <button class="button" name="boton" type="submit">VAMOS A JUGAR</button>
 </form>';
               exit;
@@ -91,8 +90,6 @@ for ($i=0; $i <4 ; $i++) {
           $conn->close();
       }
     ?>
-
-
 
 </body>
 </html>
