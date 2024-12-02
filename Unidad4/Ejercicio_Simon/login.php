@@ -1,5 +1,5 @@
 <?php // login.php
- $hn = 'localhost';
+ $hn = 'localhost:3307';/*:3307*/
  $un = 'root';
  $pw = '';
  $db = 'bdsimon';
