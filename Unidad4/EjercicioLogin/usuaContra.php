@@ -19,7 +19,7 @@
     
     
      $query = "SELECT usu,contra FROM usuarios WHERE usu='$_SESSION['usu']' AND 
-contra='$_SESSION['contra']'";
+     contra='$_SESSION['contra']'";
      $result = $conn->query($query);
      if ($result && ($result->num_rows >0)) {
      echo'Se ha inciado sesion correctamente';
