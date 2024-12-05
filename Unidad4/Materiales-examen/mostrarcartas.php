@@ -39,7 +39,7 @@
                 if(isset($_POST['lev'])){
                     $cartalev=$_POST['lev'];
                     var_dump($cartalev);
-                         if($cartalev[$i]===$i){
+                         if($cartalev===$i){
                             switch ($combi[$i]) {
                                 case 2:
                                     echo '<img src="copas_02.jpg" width="150px" height="200px"> ';
