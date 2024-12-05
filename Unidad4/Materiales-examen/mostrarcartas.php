@@ -1,7 +1,7 @@
 <?php
-    session_start();
-    require_once 'pintarCartas.php';
-
+  session_start();
+  $combi=$_SESSION["posicion"];
+  var_dump($combi);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,16 +20,44 @@
         <input type="submit" value="Levantar carta 3" name="lev">
         <input type="submit" value="Levantar carta 4" name="lev">
         <input type="submit" value="Levantar carta 5" name="lev">
-        <input type="submit" value="Levantar carta 6" name="lev">
+        <!--<input type="submit" value="Levantar carta 6" name="lev">-->
+        <button type="submit" value=6 name="lev">levantar 6</button>
         <br>
-        
     </form>
+
     <form action="comprobaciones.php" method="post">
-        <span>Pareja: </span><input type="number" id="x" name="x" required><input type="number" id="y" name="y" required>
+        <h2><span>Pareja: </span>
+        <input type="number" id="x" name="x" required>
+        <input type="number" id="y" name="y" required>
         <input type="submit" value="Comprobar">
+        </h2>
     </form>
     <div class="cartas">
-
+        <?php
+            //$combi[2,5,2,5,3,3] ejemplo
+            for ($i=0; $i < 6; $i++) {
+                if(isset($_POST['lev'])){
+                    $cartalev=$_POST['lev'];
+                    var_dump($cartalev);
+                         if($cartalev[$i]===$i){
+                            switch ($combi[$i]) {
+                                case 2:
+                                    echo '<img src="copas_02.jpg" width="150px" height="200px"> ';
+                                    break;
+                                    case 3:
+                                        echo '<img src="copas_03.jpg" width="150px" height="200px"> ';
+                                        break;
+                                        case 5:
+                                            echo '<img src="copas_03.jpg" width="150px" height="200px"> ';
+                                            break;
+                            }//fin switch
+                        }//fin if
+                }//fin isset 
+                else{
+                    echo '<img src="boca_abajo.jpg" width="150px" height="200px"> ';//pintar 6 cartas negras
+                }
+            }//fin for
+        ?> 
     </div>
 </body>
 </html>

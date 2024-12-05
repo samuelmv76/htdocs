@@ -16,8 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Credenciales incorrectas. Inténtalo de nuevo.";
     }
 }
+$posicion=[1,2,3,4,5,6];
+$valores=[2,2,3,3,5,5];
+shuffle($valores);
+for ($i=0; $i < count($posicion); $i++) { 
+    $posicion[$i]=$valores[$i];
+}
 
-$_SESSION['combinacion'] =  rand(0,3);
+$_SESSION['posicion']=$posicion;
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +48,7 @@ $_SESSION['combinacion'] =  rand(0,3);
         <label for="clave">Contraseña:</label>
         <input type="password" id="clave" name="clave" required><br>
 
-        <input type="submit" value="Entrar">
+        <input type="submit" name="submit" value="Entrar">
     </form>
 
 </body>

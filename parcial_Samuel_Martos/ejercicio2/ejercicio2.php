@@ -34,6 +34,7 @@
         //Representación gráfica de las cartas. (1 punto)
         for ($i=3; $i >= 0; $i--) { 
             if($num[$i]==1){
+                //$num son los decimales 0,1
                 //pinta la carta
                 //echo '<img src="Uno.jpg">';
                 //saber que carta pintar
