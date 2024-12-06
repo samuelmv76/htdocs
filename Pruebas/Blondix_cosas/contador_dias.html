@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Días</title>
+    <script>
+        // Validar el número de semanas
+        function validarSemanas() {
+            let semanas = document.getElementById("semanas").value;
+            if (semanas < 1 || semanas > 20 || isNaN(semanas)) {
+                alert("El número de semanas debe estar entre 1 y 20.");
+                return false;
+            }
+            return true;
+        }
+
+        // Restaurar el valor por defecto
+        function restaurarValor() {
+            document.getElementById("semanas").value = 5;
+        }
+    </script>
+</head>
+<body>
+    <h1>Contador de Días</h1>
+    <form action="contador_dias_2.php" method="post" onsubmit="return validarSemanas()">
+        <label for="semanas">Número de semanas (1-20):</label>
+        <input type="number" id="semanas" name="semanas" min="1" max="20" value="5">
+        <br><br>
+        <input type="submit" value="Enviar">
+        <input type="button" value="Borrar" onclick="restaurarValor()">
+    </form>
+</body>
+</html>
