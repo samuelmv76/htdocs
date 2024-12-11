@@ -1,6 +1,6 @@
 <?php
   session_start();
-  $combi=$_SESSION["posicion"];
+  $combi = $_SESSION["posicion"];
   var_dump($combi);
 ?>
 <!DOCTYPE html>
@@ -15,13 +15,13 @@
     <form action="#" method="post">
         <label>Cartas levantadas: </label>
         <input type="number" id="cLevantada" name="cLevantada" disabled><br>
-        <input type="submit" value="Levantar carta 1" name="lev">
-        <input type="submit" value="Levantar carta 2" name="lev">
-        <input type="submit" value="Levantar carta 3" name="lev">
-        <input type="submit" value="Levantar carta 4" name="lev">
-        <input type="submit" value="Levantar carta 5" name="lev">
-        <!--<input type="submit" value="Levantar carta 6" name="lev">-->
-        <button type="submit" value=6 name="lev">levantar 6</button>
+
+        <button type="submit" name="lev" value="0">Levantar carta 1</button>
+        <button type="submit" name="lev" value="1">Levantar carta 2</button>
+        <button type="submit" name="lev" value="2">Levantar carta 3</button>
+        <button type="submit" name="lev" value="3">Levantar carta 4</button>
+        <button type="submit" name="lev" value="4">Levantar carta 5</button>
+        <button type="submit" name="lev" value="5">Levantar carta 6</button>
         <br>
     </form>
 
@@ -32,32 +32,32 @@
         <input type="submit" value="Comprobar">
         </h2>
     </form>
+
     <div class="cartas">
         <?php
-            //$combi[2,5,2,5,3,3] ejemplo
-            for ($i=0; $i < 6; $i++) {
-                if(isset($_POST['lev'])){
-                    $cartalev=$_POST['lev'];
-                    var_dump($cartalev);
-                         if($cartalev===$i){
-                            switch ($combi[$i]) {
-                                case 2:
-                                    echo '<img src="copas_02.jpg" width="150px" height="200px"> ';
-                                    break;
-                                    case 3:
-                                        echo '<img src="copas_03.jpg" width="150px" height="200px"> ';
-                                        break;
-                                        case 5:
-                                            echo '<img src="copas_03.jpg" width="150px" height="200px"> ';
-                                            break;
-                            }//fin switch
-                        }//fin if
-                }//fin isset 
-                else{
-                    echo '<img src="boca_abajo.jpg" width="150px" height="200px"> ';//pintar 6 cartas negras
+            // Array de ejemplo para $combi: [2, 5, 2, 5, 3, 3]
+            $cartalev = isset($_POST['lev']) ? intval($_POST['lev']) : null;//ternario si existe $_POST lev intval postlev si no null
+            for ($i = 0; $i < 6; $i++) {
+                if ($cartalev === $i) {
+                    switch ($combi[$i]) {
+                        case 2:
+                            echo '<img src="copas_02.jpg" width="150px" height="200px"> ';
+                            break;
+                        case 3:
+                            echo '<img src="copas_03.jpg" width="150px" height="200px"> ';
+                            break;
+                        case 5:
+                            echo '<img src="copas_05.jpg" width="150px" height="200px"> ';
+                            break;
+                        default:
+                            echo '<img src="carta_invalida.jpg" width="150px" height="200px"> ';
+                            break;
+                    }
+                } else {
+                    echo '<img src="boca_abajo.jpg" width="150px" height="200px"> ';
                 }
-            }//fin for
-        ?> 
+            }
+        ?>
     </div>
 </body>
 </html>
