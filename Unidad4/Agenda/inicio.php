@@ -16,10 +16,35 @@ if (isset($_POST['submit'])) {//
         if ($result && $result->num_rows > 0) {
             echo 'Se ha iniciado sesión correctamente<br>';
             $rows = $result->fetch_assoc();
+            echo '<style>
+            table {
+                border: 1px solid black;
+                border-collapse: collapse;
+                width: 80%;
+                text-align: left;
+            }
+            strong {
+                display: block;
+                margin: 10px;
+            }
+            td {
+                padding: 15px;
+            }
+          </style>';
 
-            echo '<strong>Usuario: </strong>' . htmlspecialchars($rows['nombre']) . '<br>';
-            echo '<strong>Contraseña: </strong>' . htmlspecialchars($rows['clave']) . '<br>';
-            echo '<a href="index.php">Volver</a><br>';
+    echo '<h1>AGENDA</h1>';
+    echo '<table>';
+    echo '<tr><td>';
+    echo '<strong>Hola '.htmlspecialchars($rows['nombre']).', ¿cuántos contactos deseas grabar?</strong>';
+    echo '<strong>Puedes grabar entre 1 y 5. Por cada pulsación en INCREMENTAR grabarás un usuario más.</strong>';
+    echo '<strong>Cuando el número sea el deseado pulsa GRABAR.</strong>';
+    echo '</td></tr>';
+    echo '</table>';
+            /*
+                echo '<strong>Usuario: </strong>' . htmlspecialchars($rows['nombre']) . '<br>';
+                echo '<strong>Contraseña: </strong>' . htmlspecialchars($rows['clave']) . '<br>';
+                echo '<a href="index.php">Volver</a><br>';
+            */
         } else {
             echo 'Usuario o contraseña incorrectos.<br>';
         }
@@ -30,6 +55,7 @@ if (isset($_POST['submit'])) {//
 
 $conn->close();
 ?>
+<!--
 <form action="#" method="post">
     <label>Usuario</label>
     <input type="text" name="usu" required>
@@ -41,3 +67,4 @@ $conn->close();
     <br>
     <button type="submit" name="submit">Entrar</button>
 </form>
+-->
