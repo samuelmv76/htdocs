@@ -1,0 +1,1 @@
+crear base de datos desde php mysql uno me crea un documento y una coleccion y el otro una tabla.
