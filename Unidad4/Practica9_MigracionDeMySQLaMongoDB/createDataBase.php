@@ -25,7 +25,7 @@ try {
 
     // Crear una tabla
     $sql_tabla = "CREATE TABLE Empleados (
-        CodEmple INT PRIMARY KEY,
+        CodEmple INT AUTO_INCREMENT PRIMARY KEY,
         Nombre VARCHAR(50),
         Apellido1 VARCHAR(50),
         Apellido2 VARCHAR(50),
