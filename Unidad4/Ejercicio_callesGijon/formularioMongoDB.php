@@ -1,4 +1,5 @@
 <?php
+// Funciona pero sale error al no reconocer la base de datos
 require 'vendor/autoload.php'; // Carga el autoload de Composer
 
 // Conexión a MongoDB
