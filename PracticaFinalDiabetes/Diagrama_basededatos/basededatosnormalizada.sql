@@ -1,48 +1,59 @@
-CREATE TABLE Usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    apellidos VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    contraseña VARCHAR(255) NOT NULL,
-    fechaNacimiento DATE NOT NULL
+CREATE DATABASE DiabetesDB;
+USE DiabetesDB;
+
+-- Tabla Usuario
+CREATE TABLE Usuario (
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50),
+    apellido1 VARCHAR(50),
+    apellido2 VARCHAR(50),
+    login VARCHAR(50) UNIQUE,
+    pass VARCHAR(255),
+    fecha_nacimiento DATE
 );
 
+-- Tabla Control_Glucosa (Depende de Usuario)
 CREATE TABLE Control_Glucosa (
-    usuario_id INT NOT NULL,
-    fecha DATE NOT NULL UNIQUE,
-    actividad TINYINT NOT NULL,--del 1 al 5
-    insulina_lenta INT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+    id_usuario INT,
+    fecha_control DATETIME,
+    deporte BOOLEAN,
+    renta DECIMAL(10,2),
+    indice_actividad DECIMAL(5,2),
+    PRIMARY KEY (id_usuario, fecha_control),
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
 
+-- Tabla Comida (Depende de Control_Glucosa)
 CREATE TABLE Comida (
-    control_glucosa_id INT NOT NULL,
-    tipo_comida ENUM('DESAYUNO', 'COMIDA', 'CENA') NOT NULL,
-    raciones DECIMAL(5,2) NOT NULL,
-    glucosa_1h INT NOT NULL,
-    insulina INT NOT NULL,
-    glucosa_2h INT NOT NULL,
-    FOREIGN KEY (control_glucosa_id) REFERENCES Control_Glucosa(id)
+    id_usuario INT,
+    fecha_control DATETIME,
+    tipo_comida VARCHAR(50),
+    raciones INT,
+    glucosa DECIMAL(5,2),
+    insulina DECIMAL(5,2),
+    PRIMARY KEY (id_usuario, fecha_control, tipo_comida),
+    FOREIGN KEY (id_usuario, fecha_control) REFERENCES Control_Glucosa(id_usuario, fecha_control) ON DELETE CASCADE
 );
 
-CREATE TABLE Hipo (
-    usuario_id INT NOT NULL,
-    fecha DATE NOT NULL,
-    tipo_comida ENUM('DESAYUNO', 'COMIDA', 'CENA') NOT NULL,
-    hora TIME NOT NULL,
-    glucosa INT NOT NULL,
-    correccion INT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
-    FOREIGN KEY (fecha) REFERENCES Control_Glucosa(fecha)
+-- Tabla Hiperglucosa (Tabla débil, depende de Comida)
+CREATE TABLE Hiperglucosa (
+    id_usuario INT,
+    fecha_control DATETIME,
+    tipo_comida VARCHAR(50),
+    glucosa DECIMAL(5,2),
+    hora TIME,
+    correccion VARCHAR(255),
+    PRIMARY KEY (id_usuario, fecha_control, tipo_comida),
+    FOREIGN KEY (id_usuario, fecha_control, tipo_comida) REFERENCES Comida(id_usuario, fecha_control, tipo_comida) ON DELETE CASCADE
 );
 
-CREATE TABLE Hiper (
-    usuario_id INT NOT NULL,
-    fecha DATE NOT NULL,
-    tipo_comida ENUM('DESAYUNO', 'COMIDA', 'CENA') NOT NULL,
-    hora TIME NOT NULL,
-    glucosa INT NOT NULL,
-    correccion INT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
-    FOREIGN KEY (fecha) REFERENCES Control_Glucosa(fecha)
+-- Tabla Hipoglucosa (Tabla débil, depende de Comida)
+CREATE TABLE Hipoglucosa (
+    id_usuario INT,
+    fecha_control DATETIME,
+    tipo_comida VARCHAR(50),
+    glucosa DECIMAL(5,2),
+    hora TIME,
+    PRIMARY KEY (id_usuario, fecha_control, tipo_comida),
+    FOREIGN KEY (id_usuario, fecha_control, tipo_comida) REFERENCES Comida(id_usuario, fecha_control, tipo_comida) ON DELETE CASCADE
 );
