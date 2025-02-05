@@ -18,6 +18,8 @@ CREATE TABLE CONTROL_GLUCOSA (
   id_usu INT NOT NULL,
   PRIMARY KEY (fecha, id_usu),
   FOREIGN KEY (id_usu) REFERENCES USUARIO(id_usu)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE COMIDA (
@@ -30,6 +32,8 @@ CREATE TABLE COMIDA (
   id_usu INT NOT NULL,
   PRIMARY KEY (tipo_comida, fecha, id_usu),
   FOREIGN KEY (fecha, id_usu) REFERENCES CONTROL_GLUCOSA(fecha, id_usu)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE HIPERGLUCEMIA (
@@ -41,6 +45,8 @@ CREATE TABLE HIPERGLUCEMIA (
   id_usu INT NOT NULL,
   PRIMARY KEY (tipo_comida, fecha, id_usu),
   FOREIGN KEY (tipo_comida, fecha, id_usu) REFERENCES COMIDA(tipo_comida, fecha, id_usu)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE HIPOGLUCEMIA (
@@ -51,4 +57,6 @@ CREATE TABLE HIPOGLUCEMIA (
   id_usu INT NOT NULL,
   PRIMARY KEY (tipo_comida, fecha, id_usu),
   FOREIGN KEY (tipo_comida, fecha, id_usu) REFERENCES COMIDA(tipo_comida, fecha, id_usu)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
