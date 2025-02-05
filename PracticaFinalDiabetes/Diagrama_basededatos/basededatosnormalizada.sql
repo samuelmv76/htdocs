@@ -17,7 +17,7 @@ CREATE TABLE Control_Glucosa (
     id_usuario INT,
     fecha_control DATETIME,
     deporte BOOLEAN,
-    renta DECIMAL(10,2),
+    lenta INT,
     indice_actividad DECIMAL(5,2),
     PRIMARY KEY (id_usuario, fecha_control),
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
