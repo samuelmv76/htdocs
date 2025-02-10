@@ -26,4 +26,3 @@ Route::get('user/{id}', function($id)
 //
 })
 ->where('id', '[0-9]+');
-            
