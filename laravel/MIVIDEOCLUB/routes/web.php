@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 //    return view('welcome');
-return 'Hola Mundo';
+return view('home', array('nombre' => 'Pedro'));
 });
 
 Route::get('/pagina1', function () {
