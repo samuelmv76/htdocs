@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Registro de Datos para la Diabetes</h1>
-    <form action="submit.php" method="POST">
+    <form action="../paginas/submit.php" method="POST">
         <!-- Datos del Usuario -->
             <!--
             <h2>Datos del Usuario</h2>

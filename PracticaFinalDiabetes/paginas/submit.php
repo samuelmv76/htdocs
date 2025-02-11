@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../conexion.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -9,11 +9,13 @@ if ($conn->connect_error) {
 }
 
 // Recoger datos del formulario
+/*
 $nombre = $_POST['nombre'];
 $apellidos = $_POST['apellidos'];
 $usuario = $_POST['usuario'];
 $contra = $_POST['contra'];
 $fecha_nacimiento = $_POST['fecha_nacimiento'];
+*/
 
 $fecha = $_POST['fecha'];
 $deporte = $_POST['deporte'];
