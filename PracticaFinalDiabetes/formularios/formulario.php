@@ -4,30 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regulación de Diabetes</title>
+    <style>
+        input[type=number] { /* poner  los inputs mas pequeños */
+            width: 4%;
+        }   
+    </style>
 </head>
 <body>
     <h1>Registro de Datos para la Diabetes</h1>
     <form action="../paginas/submit.php" method="POST">
-        <!-- Datos del Usuario -->
-            <!--
-            <h2>Datos del Usuario</h2>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required><br><br>
-
-            <label for="apellidos">Apellidos:</label>
-            <input type="text" id="apellidos" name="apellidos" required><br><br>
-
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" required><br><br>
-
-            <label for="contra">Contraseña:</label>
-            <input type="password" id="contra" name="contra" required><br><br>
-
-            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br><br>
-            -->
-        <!-- Datos del Usuario final -->
-
         <!-- Control de Glucosa -->
         <h2>Control de Glucosa</h2>
         <label for="fecha">Fecha:</label>
@@ -57,23 +42,27 @@
         <input type="number" id="insulina" name="insulina" required><br><br>
 
         <!-- Hiperglucemia -->
-        <h2>Hiperglucemia</h2>
-        <label for="glucosa_hiper">Glucosa:</label>
-        <input type="number" id="glucosa_hiper" name="glucosa_hiper" required><br><br>
+        <details>
+            <summary><strong>Hiperglucemia (Opcional)</strong></summary>
+            <label for="glucosa_hiper">Glucosa:</label>
+            <input type="number" id="glucosa_hiper" name="glucosa_hiper"><br><br>
 
-        <label for="hora_hiper">Hora:</label>
-        <input type="time" id="hora_hiper" name="hora_hiper" required><br><br>
+            <label for="hora_hiper">Hora:</label>
+            <input type="time" id="hora_hiper" name="hora_hiper"><br><br>
 
-        <label for="correccion">Corrección:</label>
-        <input type="number" id="correccion" name="correccion" required><br><br>
+            <label for="correccion">Corrección:</label>
+            <input type="number" id="correccion" name="correccion"><br><br>
+        </details>
 
         <!-- Hipoglucemia -->
-        <h2>Hipoglucemia</h2>
-        <label for="glucosa_hipo">Glucosa:</label>
-        <input type="number" id="glucosa_hipo" name="glucosa_hipo" required><br><br>
+        <details>
+            <summary><strong>Hipoglucemia (Opcional)</strong></summary>
+            <label for="glucosa_hipo">Glucosa:</label>
+            <input type="number" id="glucosa_hipo" name="glucosa_hipo"><br><br>
 
-        <label for="hora_hipo">Hora:</label>
-        <input type="time" id="hora_hipo" name="hora_hipo" required><br><br>
+            <label for="hora_hipo">Hora:</label>
+            <input type="time" id="hora_hipo" name="hora_hipo"><br><br>
+        </details>
 
         <button type="submit">Enviar Datos</button>
     </form>
