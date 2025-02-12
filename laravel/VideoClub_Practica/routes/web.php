@@ -41,21 +41,21 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function () {
-    return view('auth/login');
+    return view('auth.login');
 });
 
 Route::get('/catalog', function () {
-    return view('catalog/index');
+    return view('catalog.index');
 });
 
 Route::get('/catalog/show/{id}', function ($id) {
-    return view('catalog/show', array('id'=>$id));
+    return view('catalog.show', array('id'=>$id));
 });
 
 Route::get('/catalog/create', function() {
-    return view('catalog/create');
+    return view('catalog.create');
 });
 
 Route::get('/catalog/edit/{id}', function ($id) {
-    return view('catalog/edit', array('id'=>$id));
+    return view('catalog.edit', array('id'=>$id));
 });
