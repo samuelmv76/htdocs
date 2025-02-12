@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-    <h1>Show <?php echo $id ?> </h1>
+    <h1>Show {{$id}}</h1>
 @stop
