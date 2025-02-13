@@ -30,11 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt_check->num_rows > 0) {
             echo "El usuario ya está registrado. <a href='register.php'>Intenta con otro nombre de usuario</a>";
         } else {
+            // **Encriptar la contraseña con password_hash**
+            $hashed_password = password_hash($contra, PASSWORD_DEFAULT);
+
             // Insertar datos en la tabla USUARIO
             $sql_insert = "INSERT INTO USUARIO (fecha_nacimiento, nombre, apellidos, usuario, contra)
                            VALUES (?, ?, ?, ?, ?)";
             $stmt_insert = $conn->prepare($sql_insert);
-            $stmt_insert->bind_param("sssss", $fecha_nacimiento, $nombre, $apellidos, $usuario, $contra);
+            $stmt_insert->bind_param("sssss", $fecha_nacimiento, $nombre, $apellidos, $usuario, $hashed_password);
 
             if ($stmt_insert->execute()) {
                 echo "Registro exitoso. <a href='login.php'>Inicia sesión aquí</a>";
