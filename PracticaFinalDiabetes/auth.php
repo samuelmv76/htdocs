@@ -1,31 +1,46 @@
 <?php
 session_start();
-
 include 'conexion.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
 // Verificar conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
 // Recoger datos del formulario
-$usuario = $_POST['usuario'];
-$contra = $_POST['contra'];
+$usuario = $_POST['usuario'] ?? '';
+$contra = $_POST['contra'] ?? '';
 
-// Consulta para verificar las credenciales
-$sql = "SELECT id_usu FROM USUARIO WHERE usuario = '$usuario' AND contra = '$contra'";
-$result = $conn->query($sql);
+if (!empty($usuario) && !empty($contra)) {
+    // Consultar el hash de la contraseña almacenada
+    $sql = "SELECT id_usu, contra FROM USUARIO WHERE usuario = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $usuario);
+    $stmt->execute();
+    $stmt->store_result();
+    
+    // Verificar si el usuario existe
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($id_usu, $hashed_password);
+        $stmt->fetch();
 
-if ($result->num_rows > 0) {
-    // Usuario autenticado
-    $row = $result->fetch_assoc();
-    $_SESSION['id_usu'] = $row['id_usu']; // Guardar ID de usuario en la sesión
-    header("Location: formularios/formulario.php"); // Redirigir a la página principal
+        // Verificar la contraseña ingresada con la almacenada en la BD
+        if (password_verify($contra, $hashed_password)) {
+            // Autenticación exitosa
+            $_SESSION['id_usu'] = $id_usu;
+            header("Location: formularios/formulario.php");
+            exit();
+        } else {
+            echo "Contraseña incorrecta. <a href='index.php'>Inténtalo de nuevo</a>";
+        }
+    } else {
+        echo "Usuario no encontrado. <a href='index.php'>Inténtalo de nuevo</a>";
+    }
+
+    $stmt->close();
 } else {
-    // Credenciales incorrectas
-    echo "Usuario o contraseña incorrectos. <a href='index.php'>Inténtalo de nuevo</a>";
+    echo "Por favor, completa todos los campos.";
 }
 
 // Cerrar conexión
