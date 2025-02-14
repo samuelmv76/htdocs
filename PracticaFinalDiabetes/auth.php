@@ -2,12 +2,6 @@
 session_start();
 include 'conexion.php';
 
-// Verificar conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
-
 // Recoger datos del formulario
 $usuario = $_POST['usuario'] ?? '';
 $contra = $_POST['contra'] ?? '';
@@ -29,7 +23,7 @@ if (!empty($usuario) && !empty($contra)) {
         if (password_verify($contra, $hashed_password)) {
             // Autenticación exitosa
             $_SESSION['id_usu'] = $id_usu;
-            header("Location: formularios/formulario.php");
+            header("Location: paginas/organizador.php");
             exit();
         } else {
             echo "Contraseña incorrecta. <a href='index.php'>Inténtalo de nuevo</a>";
@@ -42,7 +36,7 @@ if (!empty($usuario) && !empty($contra)) {
 } else {
     echo "Por favor, completa todos los campos.";
 }
-
+$stmt->close();
 // Cerrar conexión
 $conn->close();
 ?>
