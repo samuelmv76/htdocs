@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexion.php';
+include_once 'conexion.php';
 
 // Recoger datos del formulario
 $usuario = $_POST['usuario'] ?? '';
