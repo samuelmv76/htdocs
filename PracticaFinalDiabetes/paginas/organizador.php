@@ -9,7 +9,7 @@ if (!isset($_SESSION['id_usu'])) {
 }//si no hay una sesión iniciada, redirigir al index
 
 // Definir la consulta SQL para obtener el nombre del usuario basado en su ID
-$query = "SELECT nombre FROM USUARIO WHERE id_usu = ?";
+$query = "SELECT nombre FROM usuario WHERE id_usu = ?";
 
 // Preparar la consulta SQL
 $stmt = $conn->prepare($query);

@@ -11,8 +11,8 @@ $dbname = "DiabetesDB";
 */
 $servername = "fdb1028.awardspace.net";
 $username = "4591674_bddiabetes";
-$password = "";
-$dbname = "DiabetesDB";
+$password = "gice35_R";
+$dbname = "4591674_bddiabetes";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);

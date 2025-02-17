@@ -8,7 +8,7 @@ $contra = $_POST['contra'] ?? '';
 
 if (!empty($usuario) && !empty($contra)) {
     // Consultar el hash de la contraseña almacenada
-    $sql = "SELECT id_usu, contra FROM USUARIO WHERE usuario = ?";
+    $sql = "SELECT id_usu, contra FROM usuario WHERE usuario = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $usuario);
     $stmt->execute();
