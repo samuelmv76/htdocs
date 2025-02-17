@@ -1,6 +1,16 @@
 <?php
+/*
+    Datos de la conexion en  local
 $servername = "localhost:3307";
-$username = "root";
+$username = "usuario_standard";
+$password = "";
+$dbname = "DiabetesDB";
+*/
+/*
+    Datos de la conexion en 000webhost
+*/
+$servername = "fdb1028.awardspace.net";
+$username = "4591674_bddiabetes";
 $password = "";
 $dbname = "DiabetesDB";
 

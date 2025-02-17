@@ -16,7 +16,7 @@ if (!empty($usuario) && !empty($contra)) {
     
     // Verificar si el usuario existe
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id_usu, $hashed_password);
+        $stmt->bind_result($id_usu, $hashed_password);//bind_result permite que los datos obtenidos de la consulta se guarden en variables de PHP
         $stmt->fetch();
 
         // Verificar la contraseña ingresada con la almacenada en la BD
