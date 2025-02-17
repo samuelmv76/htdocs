@@ -11,7 +11,7 @@ $dbname = "DiabetesDB";
 */
 $servername = "fdb1028.awardspace.net";
 $username = "4591674_bddiabetes";
-$password = "gice35_R";
+$password = "zY/Ovddb4x%90/9O";
 $dbname = "4591674_bddiabetes";
 
 // Crear conexión
