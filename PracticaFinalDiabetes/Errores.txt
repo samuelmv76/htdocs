@@ -1,0 +1,4 @@
+repetir contra
+
+si no tienes consultas que salte error en vez de una pagina random
+consultar registros
