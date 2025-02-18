@@ -1,5 +1,5 @@
 <?php
-include_once '../conexion.php';
+include_once 'conexion.php';
 
 // Obtener fecha y mes
 $fecha = isset($_GET['fecha']) ? $_GET['fecha'] : date('Y-m-d');

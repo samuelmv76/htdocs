@@ -2,7 +2,7 @@
 session_start();
 
 // Incluir archivo de conexión
-include '../conexion.php';
+include 'conexion.php';
 
 // Verificar conexión
 if ($conn->connect_error) {
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_insert->bind_param("sssss", $fecha_nacimiento, $nombre, $apellidos, $usuario, $hashed_password);
 
             if ($stmt_insert->execute()) {
-                echo "Registro exitoso. <a href='../index.php'>Inicia sesión aquí</a>";
+                echo "Registro exitoso. <a href='index.php'>Inicia sesión aquí</a>";
             } else {
                 echo "Error en el registro: " . $stmt_insert->error;
             }

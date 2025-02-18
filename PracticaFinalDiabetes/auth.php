@@ -23,7 +23,7 @@ if (!empty($usuario) && !empty($contra)) {
         if (password_verify($contra, $hashed_password)) {
             // Autenticación exitosa
             $_SESSION['id_usu'] = $id_usu;
-            header("Location: paginas/organizador.php");
+            header("Location: organizador.php");
             exit();
         } else {
             echo "Contraseña incorrecta. <a href='index.php'>Inténtalo de nuevo</a>";

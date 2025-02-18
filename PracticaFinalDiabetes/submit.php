@@ -1,5 +1,5 @@
 <?php
-include_once '../conexion.php';
+include_once 'conexion.php';
 
 // Recoger datos del formulario
 $fecha = $_POST['fecha'];

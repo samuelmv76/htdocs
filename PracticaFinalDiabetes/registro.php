@@ -12,7 +12,7 @@
 </head>
 <body>
     <h1>Registro de Datos para la Diabetes</h1>
-    <form action="../paginas/submit.php" method="POST">
+    <form action="submit.php" method="POST">
         <!-- Control de Glucosa -->
         <h2>Control de Glucosa</h2>
         <label for="fecha">Fecha:</label>

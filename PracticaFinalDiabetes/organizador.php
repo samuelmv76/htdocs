@@ -1,10 +1,10 @@
 <?php
 // Iniciar la sesión
 session_start();
-include_once '../conexion.php';
+include_once 'conexion.php';
 
 if (!isset($_SESSION['id_usu'])) {
-    header("Location: ../index.php");
+    header("Location: index.php");
     exit();
 }//si no hay una sesión iniciada, redirigir al index
 
@@ -76,7 +76,7 @@ $stmt->fetch();
     <div class="row justify-content-center">
         <!-- Opción 1: Registrar Datos -->
         <div class="col-md-4">
-            <a href="../formularios/registro.php" class="text-decoration-none">
+            <a href=registro.php" class="text-decoration-none">
                 <div class="card bg-primary text-white p-3 d-flex flex-column h-100">
                     <div class="card-body">
                         <h3><i class="fas fa-plus-circle"></i> Registrar Datos</h3>

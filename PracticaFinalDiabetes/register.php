@@ -19,7 +19,7 @@
                         <h2>Registro de Usuario</h2>
                     </div>
                     <div class="card-body">
-                        <form action="paginas/register_process.php" method="POST">
+                        <form action="register_process.php" method="POST">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre:</label>
                                 <input type="text" id="nombre" name="nombre" class="form-control" required>
