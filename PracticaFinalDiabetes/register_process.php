@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($nombre) && !empty($apellidos) && !empty($usuario) && !empty($contra) && !empty($fecha_nacimiento)) {
 
         // Verificar si el usuario ya existe
-        $sql_check = "SELECT id_usu FROM USUARIO WHERE usuario = ?";
+        $sql_check = "SELECT id_usu FROM usuario WHERE usuario = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->bind_param("s", $usuario);
         $stmt_check->execute();
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashed_password = password_hash($contra, PASSWORD_DEFAULT);
 
             // Insertar datos en la tabla USUARIO
-            $sql_insert = "INSERT INTO USUARIO (fecha_nacimiento, nombre, apellidos, usuario, contra)
+            $sql_insert = "INSERT INTO usuario (fecha_nacimiento, nombre, apellidos, usuario, contra)
                            VALUES (?, ?, ?, ?, ?)";
             $stmt_insert = $conn->prepare($sql_insert);
             $stmt_insert->bind_param("sssss", $fecha_nacimiento, $nombre, $apellidos, $usuario, $hashed_password);

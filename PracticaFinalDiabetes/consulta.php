@@ -7,8 +7,8 @@ $mes = isset($_GET['mes']) ? $_GET['mes'] : date('m');
 
 // Obtener datos de los usuarios y control de glucosa
 $sql = "SELECT U.nombre, U.apellidos, C.fecha, C.deporte, C.lenta
-        FROM USUARIO U
-        JOIN CONTROL_GLUCOSA C ON U.id_usu = C.id_usu
+        FROM usuario U
+        JOIN control_glucosa C ON U.id_usu = C.id_usu
         WHERE MONTH(C.fecha) = ?
         ORDER BY C.fecha DESC";
 $stmt = $conn->prepare($sql);
