@@ -5,10 +5,10 @@ include_once 'conexion.php';
 $sql = "SELECT cg.fecha, cg.deporte, cg.lenta, c.tipo_comida, c.gl_1h, c.gl_2h, c.raciones, c.insulina, 
                hipo.glucosa AS hipo_glucosa, hipo.hora AS hipo_hora, 
                hiper.glucosa AS hiper_glucosa, hiper.hora AS hiper_hora, hiper.correccion
-        FROM CONTROL_GLUCOSA cg
-        LEFT JOIN COMIDA c ON cg.fecha = c.fecha AND cg.id_usu = c.id_usu
-        LEFT JOIN HIPERGLUCEMIA hiper ON c.tipo_comida = hiper.tipo_comida AND c.fecha = hiper.fecha AND c.id_usu = hiper.id_usu
-        LEFT JOIN HIPOGLUCEMIA hipo ON c.tipo_comida = hipo.tipo_comida AND c.fecha = hipo.fecha AND c.id_usu = hipo.id_usu
+        FROM control_glucosa cg
+        LEFT JOIN comida c ON cg.fecha = c.fecha AND cg.id_usu = c.id_usu
+        LEFT JOIN hiperglucemia hiper ON c.tipo_comida = hiper.tipo_comida AND c.fecha = hiper.fecha AND c.id_usu = hiper.id_usu
+        LEFT JOIN hipoglucemia hipo ON c.tipo_comida = hipo.tipo_comida AND c.fecha = hipo.fecha AND c.id_usu = hipo.id_usu
         ORDER BY cg.fecha DESC";
 
 $result = $conn->query($sql);

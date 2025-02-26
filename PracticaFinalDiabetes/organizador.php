@@ -88,7 +88,7 @@ $stmt->fetch();
 
         <!-- Opción 2: Consultar Registros -->
         <div class="col-md-4">
-            <a href="consulta.php" class="text-decoration-none">
+            <a href="datos.php" class="text-decoration-none">
                 <div class="card bg-success text-white p-3 d-flex flex-column h-100">
                     <div class="card-body">
                         <h3><i class="fas fa-table"></i> Consultar Registros</h3>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'conexion.php';
 
 // Obtener datos del formulario
@@ -15,17 +16,17 @@ $hora_hiper = $_POST['hora_hiper'] ?? null;
 $correccion = $_POST['correccion'] ?? null;
 $glucosa_hipo = $_POST['glucosa_hipo'] ?? null;
 $hora_hipo = $_POST['hora_hipo'] ?? null;
-$id_usu = 1; // Aquí debes asignar el ID del usuario logueado
+$id_usu=$_SESSION['id_usu'];// Aquí debes asignar el ID del usuario logueado
 
 // Insertar en CONTROL_GLUCOSA
-$sql_glucosa = "INSERT INTO CONTROL_GLUCOSA (fecha, deporte, lenta, id_usu) 
+$sql_glucosa = "INSERT INTO control_glucosa (fecha, deporte, lenta, id_usu) 
                 VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql_glucosa);
 $stmt->bind_param("siii", $fecha, $deporte, $lenta, $id_usu);
 $stmt->execute();
 
 // Insertar en COMIDA
-$sql_comida = "INSERT INTO COMIDA (tipo_comida, gl_1h, gl_2h, raciones, insulina, fecha, id_usu) 
+$sql_comida = "INSERT INTO comida (tipo_comida, gl_1h, gl_2h, raciones, insulina, fecha, id_usu) 
                VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql_comida);
 $stmt->bind_param("siiiisi", $tipo_comida, $gl_1h, $gl_2h, $raciones, $insulina, $fecha, $id_usu);
@@ -33,7 +34,7 @@ $stmt->execute();
 
 // Insertar en HIPERGLUCEMIA (si aplica)
 if (!empty($glucosa_hiper) && !empty($hora_hiper) && !empty($correccion)) {
-    $sql_hiper = "INSERT INTO HIPERGLUCEMIA (glucosa, hora, correccion, tipo_comida, fecha, id_usu) 
+    $sql_hiper = "INSERT INTO hiperglucemia (glucosa, hora, correccion, tipo_comida, fecha, id_usu) 
                   VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_hiper);
     $stmt->bind_param("issisi", $glucosa_hiper, $hora_hiper, $correccion, $tipo_comida, $fecha, $id_usu);
@@ -42,7 +43,7 @@ if (!empty($glucosa_hiper) && !empty($hora_hiper) && !empty($correccion)) {
 
 // Insertar en HIPOGLUCEMIA (si aplica)
 if (!empty($glucosa_hipo) && !empty($hora_hipo)) {
-    $sql_hipo = "INSERT INTO HIPOGLUCEMIA (glucosa, hora, tipo_comida, fecha, id_usu) 
+    $sql_hipo = "INSERT INTO hipoglucemia (glucosa, hora, tipo_comida, fecha, id_usu) 
                  VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_hipo);
     $stmt->bind_param("isssi", $glucosa_hipo, $hora_hipo, $tipo_comida, $fecha, $id_usu);

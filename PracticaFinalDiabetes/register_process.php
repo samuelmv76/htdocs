@@ -4,11 +4,6 @@ session_start();
 // Incluir archivo de conexión
 include 'conexion.php';
 
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
-
 // Capturar los valores del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = trim($_POST['nombre'] ?? null);
