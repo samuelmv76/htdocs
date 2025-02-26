@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\HomeController;
 /*
 Route::get('/', function () {
     return ('Pantalla principal');
@@ -13,7 +15,7 @@ Route::get('/login', function () {
 });
 */
 
-
+/*
 Route::get('/logout', function () {
     return 'Logout usuario';
 });
@@ -33,8 +35,8 @@ Route::get('/catalog/create', function() {
 Route::get('/catalog/edit/{id}', function ($id) {
     return 'Modificar película '.$id;
 });
-
-/*  VISTAS  */
+*/
+/*  VISTAS  
 
 Route::get('/', function () {
     return view('home');
@@ -59,3 +61,11 @@ Route::get('/catalog/create', function() {
 Route::get('/catalog/edit/{id}', function ($id) {
     return view('catalog.edit', array('id'=>$id));
 });
+*/
+/* CONTROLADORES */
+
+Route::get('/', [HomeController::class, 'getHome']);
+Route::get('/catalog', [CatalogController::class, 'getIndex']);
+Route::get('/catalog/show/{id}', [CatalogController::class, 'getShow']);
+Route::get('/catalog/create', [CatalogController::class, 'getCreate']);
+Route::get('/catalog/edit/{id}', [CatalogController::class, 'getEdit']);
