@@ -1,193 +1,303 @@
 <?php
+session_start();
 include_once 'conexion.php';
-/* Redirigir si el usuario no ha iniciado sesión (no esta seteada la variable de sesión) 
+
+// Verificar si el usuario inició sesión
 if (!isset($_SESSION['id_usu'])) {
     header("Location: index.php");
     exit();
 }
-*/
+$id_usu = $_SESSION['id_usu'];
 
-// Consulta para obtener los registros de cada usuario y fecha
-$sql = "SELECT cg.fecha, cg.deporte, cg.lenta, c.tipo_comida, c.gl_1h, c.gl_2h, c.raciones, c.insulina, 
-               hipo.glucosa AS hipo_glucosa, hipo.hora AS hipo_hora, 
-               hiper.glucosa AS hiper_glucosa, hiper.hora AS hiper_hora, hiper.correccion
-        FROM control_glucosa cg
-        LEFT JOIN comida c ON cg.fecha = c.fecha AND cg.id_usu = c.id_usu
-        LEFT JOIN hiperglucemia hiper ON c.tipo_comida = hiper.tipo_comida AND c.fecha = hiper.fecha AND c.id_usu = hiper.id_usu
-        LEFT JOIN hipoglucemia hipo ON c.tipo_comida = hipo.tipo_comida AND c.fecha = hipo.fecha AND c.id_usu = hipo.id_usu
-        ORDER BY cg.fecha DESC";
+// Verificar que se hayan recibido mes y año
+if (!isset($_GET['mes']) || !isset($_GET['anio'])) {
+    header("Location: seleccionar_fecha.php");
+    exit();
+}
+$mes = $_GET['mes'];
+$anio = $_GET['anio'];
+// Creamos un patrón para filtrar las fechas (ejemplo: "2025-02-%")
+$dateFilter = $anio . "-" . $mes . "-%";
 
-$result = $conn->query($sql);
+// ---------------------------------------------------------------------
+// 1) Consulta de Control de Glucosa (se asume un registro por día)
+$sqlControl = "SELECT fecha, deporte, lenta FROM control_glucosa WHERE id_usu = ? AND fecha LIKE ? ORDER BY fecha ASC";
+$stmt = $conn->prepare($sqlControl);
+$stmt->bind_param("is", $id_usu, $dateFilter);
+$stmt->execute();
+$resultControl = $stmt->get_result();
+$controlData = [];
+while ($row = $resultControl->fetch_assoc()) {
+    $controlData[] = $row;
+}
+$stmt->close();
+
+// ---------------------------------------------------------------------
+// 2) Consulta de Registros de Comida
+$sqlComida = "SELECT fecha, tipo_comida, gl_1h, gl_2h, raciones, insulina FROM comida WHERE id_usu = ? AND fecha LIKE ? ORDER BY fecha ASC";
+$stmt = $conn->prepare($sqlComida);
+$stmt->bind_param("is", $id_usu, $dateFilter);
+$stmt->execute();
+$resultComida = $stmt->get_result();
+$comidaData = [];
+while ($row = $resultComida->fetch_assoc()) {
+    $comidaData[] = $row;
+}
+$stmt->close();
+
+// Agrupar registros de Comida por fecha
+$comidaGrouped = [];
+foreach ($comidaData as $comida) {
+    $fecha = $comida['fecha'];
+    if (!isset($comidaGrouped[$fecha])) {
+        $comidaGrouped[$fecha] = [];
+    }
+    $comidaGrouped[$fecha][] = $comida;
+}
+
+// ---------------------------------------------------------------------
+// 3) Consulta de Hipoglucemia
+$sqlHipo = "SELECT fecha, tipo_comida, glucosa, hora FROM hipoglucemia WHERE id_usu = ? AND fecha LIKE ? ORDER BY fecha ASC";
+$stmt = $conn->prepare($sqlHipo);
+$stmt->bind_param("is", $id_usu, $dateFilter);
+$stmt->execute();
+$resultHipo = $stmt->get_result();
+$hipoData = [];
+while ($row = $resultHipo->fetch_assoc()) {
+    $hipoData[] = $row;
+}
+$stmt->close();
+
+// Agrupar registros de Hipoglucemia por fecha
+$hipoGrouped = [];
+foreach ($hipoData as $record) {
+    $fecha = $record['fecha'];
+    if (!isset($hipoGrouped[$fecha])) {
+        $hipoGrouped[$fecha] = [];
+    }
+    $hipoGrouped[$fecha][] = $record;
+}
+
+// ---------------------------------------------------------------------
+// 4) Consulta de Hiperglucemia
+$sqlHiper = "SELECT fecha, tipo_comida, glucosa, hora FROM hiperglucemia WHERE id_usu = ? AND fecha LIKE ? ORDER BY fecha ASC";
+$stmt = $conn->prepare($sqlHiper);
+$stmt->bind_param("is", $id_usu, $dateFilter);
+$stmt->execute();
+$resultHiper = $stmt->get_result();
+$hiperData = [];
+while ($row = $resultHiper->fetch_assoc()) {
+    $hiperData[] = $row;
+}
+$stmt->close();
+
+// Agrupar registros de Hiperglucemia por fecha
+$hiperGrouped = [];
+foreach ($hiperData as $record) {
+    $fecha = $record['fecha'];
+    if (!isset($hiperGrouped[$fecha])) {
+        $hiperGrouped[$fecha] = [];
+    }
+    $hiperGrouped[$fecha][] = $record;
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de Diabetes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 30px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th {
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-        }
-        td, th {
-            border: 1px solid #dee2e6;
-            padding: 8px;
-            font-size: 14px;
-        }
-        .hipo {
-            background-color: #a3c7ff;
-        }
-        .hiper {
-            background-color: #ffe599;
-        }
-        .lenta {
-            background-color: #f4a582;
-        }
-        .navbar {
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Registros Combinados - Diabetes App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f1f4f7;
+    }
+    .profile-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f8f9fa;
+      color: #0d6efd;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      margin-left: 10px;
+    }
+    .nested-section {
+      margin-bottom: 10px;
+    }
+    .nested-section h6 {
+      margin-bottom: 5px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Diabetes App</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="registro_controlglucosa.php">Registro Control de glucosa (1 DIARIO)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="datos.php">Datos</a>
-                    </li>
-                </ul>
-            </div>
+  <?php
+    // Obtener iniciales del usuario
+    $usuario = $_SESSION['usuario'];
+    $iniciales = strtoupper(substr($usuario, 0, 2));
+  ?>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Diabetes App</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="registro_controlglucosa.php">Registro Control de Glucosa (1 DIARIO)</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="datos.php">Datos</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center ms-auto">
+          <div class="profile-circle"><?php echo $iniciales; ?></div>
         </div>
-    </nav>
-
-    <!-- Contenido principal -->
-    <div class="container">
-        <h2 class="text-center mb-4">Historial de Datos</h2>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover text-center">
-                <thead class="table-primary">
-                    <tr>
-                        <th rowspan="2">Día</th>
-                        <th colspan="5">Desayuno</th>
-                        <th colspan="3" class="hipo">Hipo</th>
-                        <th colspan="3" class="hiper">Híper</th>
-                        <th colspan="5">Comida</th>
-                        <th colspan="3" class="hipo">Hipo</th>
-                        <th colspan="3" class="hiper">Híper</th>
-                        <th colspan="5">Cena</th>
-                        <th colspan="3" class="hipo">Hipo</th>
-                        <th colspan="3" class="hiper">Híper</th>
-                        <th class="lenta">Lenta</th>
-                    </tr>
-                    <tr>
-                        <th>GL/1H</th>
-                        <th>RAC.</th>
-                        <th>INSU.</th>
-                        <th>GL/2H</th>
-                        <th>Deporte</th>
-                        
-                        <th>GLU.</th>
-                        <th>HORA</th>
-
-                        <th>GLU.</th>
-                        <th>HORA</th>
-                        <th>CORR.</th>
-
-                        <th>GL/1H</th>
-                        <th>RAC.</th>
-                        <th>INSU.</th>
-                        <th>GL/2H</th>
-                        <th>Deporte</th>
-
-                        <th>GLU.</th>
-                        <th>HORA</th>
-
-                        <th>GLU.</th>
-                        <th>HORA</th>
-                        <th>CORR.</th>
-
-                        <th>GL/1H</th>
-                        <th>RAC.</th>
-                        <th>INSU.</th>
-                        <th>GL/2H</th>
-                        <th>Deporte</th>
-
-                        <th>GLU.</th>
-                        <th>HORA</th>
-
-                        <th>GLU.</th>
-                        <th>HORA</th>
-                        <th>CORR.</th>
-
-                        <th>Lenta</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($result->num_rows > 0) {
-                        $current_date = null;
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . date("d-m-Y", strtotime($row["fecha"])) . "</td>";
-                            echo "<td>" . $row["gl_1h"] . "</td>";
-                            echo "<td>" . $row["raciones"] . "</td>";
-                            echo "<td>" . $row["insulina"] . "</td>";
-                            echo "<td>" . $row["gl_2h"] . "</td>";
-                            echo "<td>" . $row["deporte"] . "</td>";
-                            
-                            echo "<td class='hipo'>" . ($row["hipo_glucosa"] ?? "") . "</td>";
-                            echo "<td class='hipo'>" . ($row["hipo_hora"] ?? "") . "</td>";
-                            echo "<td class='hipo'></td>";
-
-                            echo "<td class='hiper'>" . ($row["hiper_glucosa"] ?? "") . "</td>";
-                            echo "<td class='hiper'>" . ($row["hiper_hora"] ?? "") . "</td>";
-                            echo "<td class='hiper'>" . ($row["correccion"] ?? "") . "</td>";
-
-                            echo "<td class='lenta'>" . $row["lenta"] . "</td>";
-                            echo "</tr>";
-
-                            $current_date = $row["fecha"];
-                        }
-                    } else {
-                        echo "<tr><td colspan='34'>No hay datos disponibles</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+      </div>
     </div>
+  </nav>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Registros del <?php echo "$mes/$anio"; ?></h1>
+    
+    <!-- Tarjeta combinada para mostrar Control de Glucosa y Registros Combinados -->
+    <div class="card shadow mb-4">
+      <div class="card-header bg-info text-white">
+        <h4 class="mb-0">Registros Combinados (Control y Registros de Comida/Hipo/Hiper)</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="table-light">
+              <tr>
+                <th>DÍA</th>
+                <th>Control de Glucosa</th>
+                <th>Registros Combinados</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if (!empty($controlData)): ?>
+                <?php foreach ($controlData as $control): 
+                  $fecha = $control['fecha'];
+                  $dia = date("j", strtotime($fecha));
+                ?>
+                  <tr>
+                    <td><?php echo $dia; ?></td>
+                    <td>
+                      <strong>Índice de Actividad:</strong> <?php echo htmlspecialchars($control['deporte']); ?><br>
+                      <strong>Insulina Lenta:</strong> <?php echo htmlspecialchars($control['lenta']); ?>
+                    </td>
+                    <td>
+                      <div class="row">
+                        <!-- Columna para Comida -->
+                        <div class="col-md-4 nested-section">
+                          <h6 class="bg-secondary text-white p-1">Comida</h6>
+                          <?php if (isset($comidaGrouped[$fecha])): ?>
+                            <table class="table table-sm table-bordered mb-0">
+                              <thead>
+                                <tr>
+                                  <th>Tipo</th>
+                                  <th>G1</th>
+                                  <th>G2</th>
+                                  <th>Rac.</th>
+                                  <th>Insu.</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php foreach ($comidaGrouped[$fecha] as $comida): ?>
+                                  <tr>
+                                    <td><?php echo htmlspecialchars($comida['tipo_comida']); ?></td>
+                                    <td><?php echo htmlspecialchars($comida['gl_1h']); ?></td>
+                                    <td><?php echo htmlspecialchars($comida['gl_2h']); ?></td>
+                                    <td><?php echo htmlspecialchars($comida['raciones']); ?></td>
+                                    <td><?php echo htmlspecialchars($comida['insulina']); ?></td>
+                                  </tr>
+                                <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                          <?php else: ?>
+                            <p class="text-center"><em>Sin registros</em></p>
+                          <?php endif; ?>
+                        </div>
+                        <!-- Columna para Hipoglucemia -->
+                        <div class="col-md-4 nested-section">
+                          <h6 class="bg-warning text-dark p-1">Hipoglucemia</h6>
+                          <?php if (isset($hipoGrouped[$fecha])): ?>
+                            <table class="table table-sm table-bordered mb-0">
+                              <thead>
+                                <tr>
+                                  <th>Tipo</th>
+                                  <th>Gluc.</th>
+                                  <th>Hora</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php foreach ($hipoGrouped[$fecha] as $hipo): ?>
+                                  <tr>
+                                    <td><?php echo htmlspecialchars($hipo['tipo_comida']); ?></td>
+                                    <td><?php echo htmlspecialchars($hipo['glucosa']); ?></td>
+                                    <td><?php echo htmlspecialchars($hipo['hora']); ?></td>
+                                  </tr>
+                                <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                          <?php else: ?>
+                            <p class="text-center"><em>Sin registros</em></p>
+                          <?php endif; ?>
+                        </div>
+                        <!-- Columna para Hiperglucemia -->
+                        <div class="col-md-4 nested-section">
+                          <h6 class="bg-danger text-white p-1">Hiperglucemia</h6>
+                          <?php if (isset($hiperGrouped[$fecha])): ?>
+                            <table class="table table-sm table-bordered mb-0">
+                              <thead>
+                                <tr>
+                                  <th>Tipo</th>
+                                  <th>Gluc.</th>
+                                  <th>Hora</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php foreach ($hiperGrouped[$fecha] as $hiper): ?>
+                                  <tr>
+                                    <td><?php echo htmlspecialchars($hiper['tipo_comida']); ?></td>
+                                    <td><?php echo htmlspecialchars($hiper['glucosa']); ?></td>
+                                    <td><?php echo htmlspecialchars($hiper['hora']); ?></td>
+                                  </tr>
+                                <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                          <?php else: ?>
+                            <p class="text-center"><em>Sin registros</em></p>
+                          <?php endif; ?>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <tr>
+                  <td colspan="3">No hay registros de Control de Glucosa para este período.</td>
+                </tr>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>
+<?php $conn->close(); ?>
