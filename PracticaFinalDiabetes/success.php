@@ -1,5 +1,9 @@
 <?php
-// success.php
+// Redirigir si el usuario no ha iniciado sesión
+if (!isset($_SESSION['id_usu'])) {
+    header("Location: index.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">

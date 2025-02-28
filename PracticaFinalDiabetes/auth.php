@@ -23,6 +23,8 @@ if (!empty($usuario) && !empty($contra)) {
         if (password_verify($contra, $hashed_password)) {
             // Autenticación exitosa
             $_SESSION['id_usu'] = $id_usu;
+            //Crear variable de sesion para el usuario
+            $_SESSION['usuario'] = $usuario;
             header("Location: organizador.php");
             exit();
         } else {
@@ -36,7 +38,6 @@ if (!empty($usuario) && !empty($contra)) {
 } else {
     echo "Por favor, completa todos los campos.";
 }
-$stmt->close();
 // Cerrar conexión
 $conn->close();
 ?>

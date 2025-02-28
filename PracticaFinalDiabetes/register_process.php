@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if (isset($_SESSION['id_usu'])) {
+    header("Location: index.php"); // Redirige a la página principal si ya hay sesión iniciada
+    exit();
+}
 // Incluir archivo de conexión
 include 'conexion.php';
 
@@ -35,7 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_insert->bind_param("sssss", $fecha_nacimiento, $nombre, $apellidos, $usuario, $hashed_password);
 
             if ($stmt_insert->execute()) {
-                echo "Registro exitoso. <a href='index.php'>Inicia sesión aquí</a>";
+                //echo "Registro exitoso. <a href='index.php'>Inicia sesión aquí</a>";
+                header("Location: organizador.php");
+                exit();
             } else {
                 echo "Error en el registro: " . $stmt_insert->error;
             }

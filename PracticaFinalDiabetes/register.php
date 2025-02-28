@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (isset($_SESSION['id_usu'])) {
+    header("Location: index.php"); // Redirige a la página principal si ya hay sesión iniciada
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,7 +14,6 @@
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 <body class="bg-light">
 
@@ -19,7 +25,7 @@
                         <h2>Registro de Usuario</h2>
                     </div>
                     <div class="card-body">
-                        <form action="register_process.php" method="POST">
+                        <form action="register_process.php" method="POST" onsubmit="return validarContraseña()">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre:</label>
                                 <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -41,6 +47,11 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="repetir_contra" class="form-label">Repetir Contraseña:</label>
+                                <input type="password" id="repetir_contra" name="repetir_contra" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
                                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
                             </div>
@@ -56,8 +67,22 @@
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS (Opcional si usas componentes interactivos) -->
+    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Validación de Contraseña -->
+    <script>
+        function validarContraseña() {
+            var contra = document.getElementById("contra").value;
+            var repetirContra = document.getElementById("repetir_contra").value;
+            
+            if (contra !== repetirContra) {
+                alert("Las contraseñas no coinciden. Por favor, inténtalo de nuevo.");
+                return false;
+            }
+            return true;
+        }
+    </script>
 
 </body>
 </html>

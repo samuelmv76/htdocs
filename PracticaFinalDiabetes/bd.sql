@@ -7,7 +7,7 @@ CREATE TABLE USUARIO (
   nombre VARCHAR(25) NOT NULL,
   apellidos VARCHAR(25) NOT NULL,
   usuario VARCHAR(25) NOT NULL,
-  contra VARCHAR(25) NOT NULL,
+  contra VARCHAR(255) NOT NULL,
   PRIMARY KEY (id_usu)
 );
 

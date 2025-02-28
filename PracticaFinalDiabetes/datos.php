@@ -1,5 +1,11 @@
 <?php
 include_once 'conexion.php';
+/* Redirigir si el usuario no ha iniciado sesión (no esta seteada la variable de sesión) 
+if (!isset($_SESSION['id_usu'])) {
+    header("Location: index.php");
+    exit();
+}
+*/
 
 // Consulta para obtener los registros de cada usuario y fecha
 $sql = "SELECT cg.fecha, cg.deporte, cg.lenta, c.tipo_comida, c.gl_1h, c.gl_2h, c.raciones, c.insulina, 
