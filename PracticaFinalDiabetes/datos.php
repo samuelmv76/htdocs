@@ -73,7 +73,10 @@ $result = $conn->query($sql);
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="registro.php">Registro</a>
+                        <a class="nav-link" href="registro_controlglucosa.php">Registro Control de glucosa (1 DIARIO)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="datos.php">Datos</a>

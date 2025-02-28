@@ -76,7 +76,7 @@ $stmt->fetch();
     <div class="row justify-content-center">
         <!-- Opción 1: Registrar Datos -->
         <div class="col-md-4">
-            <a href="registro.php" class="text-decoration-none">
+            <a href="registro_controlglucosa.php" class="text-decoration-none">
                 <div class="card bg-primary text-white p-3 d-flex flex-column h-100">
                     <div class="card-body">
                         <h3><i class="fas fa-plus-circle"></i> Registrar Datos</h3>

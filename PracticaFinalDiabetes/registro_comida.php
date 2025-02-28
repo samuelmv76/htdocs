@@ -44,6 +44,7 @@ $iniciales = strtoupper(substr($usuario, 0, 2));
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Diabetes App</a>
@@ -53,41 +54,36 @@ $iniciales = strtoupper(substr($usuario, 0, 2));
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Registro</a>
+                        <a class="nav-link" href="registro_controlglucosa.php">Registro Control de glucosa (1 DIARIO)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="datos.php">Datos</a>
                     </li>
                 </ul>
-                <!-- Foto de perfil con iniciales a la derecha -->
+                <!-- Bloque para mostrar las iniciales del usuario a la derecha -->
                 <div class="d-flex align-items-center ms-auto">
                     <div class="profile-circle"><?php echo $iniciales; ?></div>
                 </div>
-                 <!-- Crear boton de cerrar sesion -->
             </div>
         </div>
     </nav>
 
     <div class="container mt-4">
         <h1 class="text-center mb-3" style="font-size: 1.5rem;">Registro de Datos</h1>
-        <form action="submit.php" method="POST" class="needs-validation" novalidate>
-            <h2>Control de Glucosa</h2>
-            <div class="form-group">
-                <label for="fecha" class="form-label">Fecha:</label>
-                <input type="date" id="fecha" name="fecha" class="form-control form-control-sm" required>
-            </div>
-            <div class="form-group">
-                <label for="deporte" class="form-label">Minutos de Deporte:</label>
-                <input type="number" id="deporte" name="deporte" class="form-control form-control-sm" required>
-            </div>
-            <div class="form-group">
-                <label for="lenta" class="form-label">Insulina Lenta:</label>
-                <input type="number" id="lenta" name="lenta" class="form-control form-control-sm" required>
-            </div>
+        <form action="submit_comida.php" method="POST" class="needs-validation" novalidate>
 
             <h2>Registro de Comida</h2>
+
             <div class="form-group">
-                <label for="tipo_comida" class="form-label">Tipo de Comida:</label>
+                <label for="tipo_comida" class="form-label">Fecha</label>
+                <input type="date" id="fecha" name="fecha" class="form-control form-control-sm" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_comida" class="form-label">Tipo de Comida(Desayuno/Comida/Cena):</label>
                 <input type="text" id="tipo_comida" name="tipo_comida" class="form-control form-control-sm" required>
             </div>
             <div class="form-group">

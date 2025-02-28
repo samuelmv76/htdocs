@@ -44,29 +44,34 @@ $iniciales = strtoupper(substr($usuario, 0, 2));
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Diabetes App</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Registro</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="datos.php">Datos</a>
-                    </li>
-                </ul>
-                <!-- Foto de perfil con iniciales a la derecha -->
-                <div class="d-flex align-items-center ms-auto">
-                    <div class="profile-circle"><?php echo $iniciales; ?></div>
-                </div>
-                 <!-- Crear boton de cerrar sesion -->
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Diabetes App</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="registro_controlglucosa.php">Registro Control de glucosa (1 DIARIO)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="datos.php">Datos</a>
+                </li>
+            </ul>
+            <!-- Bloque para mostrar las iniciales del usuario a la derecha -->
+            <div class="d-flex align-items-center ms-auto">
+                <div class="profile-circle"><?php echo $iniciales; ?></div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
+
 <!-- Formulario de registro de datos
         Este formulario es para insertar 1 control de glucosa en la base de datos.
 -->
