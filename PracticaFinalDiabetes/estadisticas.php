@@ -85,7 +85,7 @@ $conn->close();
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
-          <a class="navbar-brand" href="#">Diabetes App</a>
+          <a class="navbar-brand" href="organizador.php">Diabetes App</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                   aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -99,7 +99,7 @@ $conn->close();
                       <a class="nav-link" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link active" href="datos.php">Datos</a>
+                      <a class="nav-link" href="datos.php">Datos</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link active" href="estadisticas.php">Estadísticas</a>
