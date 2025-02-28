@@ -2,113 +2,131 @@
 session_start();
 include_once 'conexion.php';
 
-// Verificar si el usuario inició sesión
+// Verificar sesión
 if (!isset($_SESSION['id_usu'])) {
     header("Location: index.php");
     exit();
 }
 $id_usu = $_SESSION['id_usu'];
 
-// Verificar que se hayan recibido mes y año
+// Verificar mes/año
 if (!isset($_GET['mes']) || !isset($_GET['anio'])) {
     header("Location: seleccionar_fecha.php");
     exit();
 }
 $mes = $_GET['mes'];
 $anio = $_GET['anio'];
-// Patrón para filtrar las fechas (por ejemplo: "2025-02-%")
 $dateFilter = $anio . "-" . $mes . "-%";
 
-// ---------------------------------------------------------------------
-// 1) Consulta de Control de Glucosa (se asume un registro por día)
-$sqlControl = "SELECT fecha, deporte, lenta FROM control_glucosa WHERE id_usu = ? AND fecha LIKE ? ORDER BY fecha ASC";
+// 1) Control de Glucosa
+$sqlControl = "SELECT fecha, deporte, lenta 
+               FROM control_glucosa 
+               WHERE id_usu = ? AND fecha LIKE ? 
+               ORDER BY fecha ASC";
 $stmt = $conn->prepare($sqlControl);
 $stmt->bind_param("is", $id_usu, $dateFilter);
 $stmt->execute();
-$resultControl = $stmt->get_result();
+$result = $stmt->get_result();
 $controlData = [];
-while ($row = $resultControl->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) {
     $controlData[] = $row;
 }
 $stmt->close();
 
-// ---------------------------------------------------------------------
-// 2) Consulta de Registros de Comida
-$sqlComida = "SELECT fecha, tipo_comida, gl_1h, gl_2h, raciones, insulina FROM comida WHERE id_usu = ? AND fecha LIKE ? ORDER BY fecha ASC";
+// 2) Comida
+$sqlComida = "SELECT fecha, tipo_comida, gl_1h, gl_2h, raciones, insulina
+              FROM comida
+              WHERE id_usu = ? AND fecha LIKE ?
+              ORDER BY fecha ASC";
 $stmt = $conn->prepare($sqlComida);
 $stmt->bind_param("is", $id_usu, $dateFilter);
 $stmt->execute();
-$resultComida = $stmt->get_result();
+$result = $stmt->get_result();
 $comidaData = [];
-while ($row = $resultComida->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) {
     $comidaData[] = $row;
 }
 $stmt->close();
 
-// Agrupar registros de Comida por fecha
+// Agrupar comida por fecha
 $comidaGrouped = [];
-foreach ($comidaData as $comida) {
-    $fecha = $comida['fecha'];
-    if (!isset($comidaGrouped[$fecha])) {
-        $comidaGrouped[$fecha] = [];
+foreach ($comidaData as $c) {
+    $f = $c['fecha'];
+    if (!isset($comidaGrouped[$f])) {
+        $comidaGrouped[$f] = [];
     }
-    $comidaGrouped[$fecha][] = $comida;
+    $comidaGrouped[$f][] = $c;
 }
 
-// ---------------------------------------------------------------------
-// 3) Consulta de Hipoglucemia
-$sqlHipo = "SELECT fecha, tipo_comida, glucosa, hora FROM hipoglucemia WHERE id_usu = ? AND fecha LIKE ? ORDER BY fecha ASC";
+// 3) Hipoglucemia
+$sqlHipo = "SELECT fecha, tipo_comida, glucosa, hora 
+            FROM hipoglucemia
+            WHERE id_usu = ? AND fecha LIKE ?
+            ORDER BY fecha ASC";
 $stmt = $conn->prepare($sqlHipo);
 $stmt->bind_param("is", $id_usu, $dateFilter);
 $stmt->execute();
-$resultHipo = $stmt->get_result();
+$result = $stmt->get_result();
 $hipoData = [];
-while ($row = $resultHipo->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) {
     $hipoData[] = $row;
 }
 $stmt->close();
 
-// Agrupar registros de Hipoglucemia por fecha
+// Agrupar hipo por fecha
 $hipoGrouped = [];
-foreach ($hipoData as $record) {
-    $fecha = $record['fecha'];
-    if (!isset($hipoGrouped[$fecha])) {
-        $hipoGrouped[$fecha] = [];
+foreach ($hipoData as $h) {
+    $f = $h['fecha'];
+    if (!isset($hipoGrouped[$f])) {
+        $hipoGrouped[$f] = [];
     }
-    $hipoGrouped[$fecha][] = $record;
+    $hipoGrouped[$f][] = $h;
 }
 
-// ---------------------------------------------------------------------
-// 4) Consulta de Hiperglucemia
-$sqlHiper = "SELECT fecha, tipo_comida, glucosa, hora FROM hiperglucemia WHERE id_usu = ? AND fecha LIKE ? ORDER BY fecha ASC";
+// 4) Hiperglucemia (incluye 'correccion' si existe en tu tabla)
+$sqlHiper = "SELECT fecha, tipo_comida, glucosa, hora, correccion
+             FROM hiperglucemia
+             WHERE id_usu = ? AND fecha LIKE ?
+             ORDER BY fecha ASC";
 $stmt = $conn->prepare($sqlHiper);
 $stmt->bind_param("is", $id_usu, $dateFilter);
 $stmt->execute();
-$resultHiper = $stmt->get_result();
+$result = $stmt->get_result();
 $hiperData = [];
-while ($row = $resultHiper->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) {
     $hiperData[] = $row;
 }
 $stmt->close();
 
-// Agrupar registros de Hiperglucemia por fecha
+// Agrupar hiper por fecha
 $hiperGrouped = [];
-foreach ($hiperData as $record) {
-    $fecha = $record['fecha'];
-    if (!isset($hiperGrouped[$fecha])) {
-        $hiperGrouped[$fecha] = [];
+foreach ($hiperData as $h) {
+    $f = $h['fecha'];
+    if (!isset($hiperGrouped[$f])) {
+        $hiperGrouped[$f] = [];
     }
-    $hiperGrouped[$fecha][] = $record;
+    $hiperGrouped[$f][] = $h;
 }
 
-// Función auxiliar: devuelve el primer registro en el grupo que coincida con el tipo de comida
-function getRecordForFood($grouped, $fecha, $tipo) {
-    if (!isset($grouped[$fecha])) {
+// Funciones para obtener registros hipo/hiper de cada comida
+function getHipoForFood($fecha, $tipo, $hipoGrouped) {
+    if (!isset($hipoGrouped[$fecha])) {
         return null;
     }
-    foreach ($grouped[$fecha] as $record) {
-        if ($record['tipo_comida'] === $tipo) {
-            return $record;
+    foreach ($hipoGrouped[$fecha] as $h) {
+        if ($h['tipo_comida'] === $tipo) {
+            return $h;
+        }
+    }
+    return null;
+}
+function getHiperForFood($fecha, $tipo, $hiperGrouped) {
+    if (!isset($hiperGrouped[$fecha])) {
+        return null;
+    }
+    foreach ($hiperGrouped[$fecha] as $h) {
+        if ($h['tipo_comida'] === $tipo) {
+            return $h;
         }
     }
     return null;
@@ -151,16 +169,42 @@ function getRecordForFood($grouped, $fecha, $tipo) {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    /* Para la columna Tipo en la tabla anidada */
-    .nested-table th:first-child,
-    .nested-table td:first-child {
-      width: 120px;
+
+    /* Colores para la cabecera */
+    .bg-comida {
+      background-color: #ffffff; /* Ajusta a tu gusto */
+    }
+    .bg-hipo {
+      background-color: #b3cde0; /* color suave para HIPO */
+    }
+    .bg-hiper {
+      background-color: #ffe4b2; /* color suave para HIPER */
+    }
+
+    /* Aplicar el color de fondo a las columnas Hipo e Hiper también en las celdas del cuerpo */
+    /* Comida = columnas 1..4 */
+    /* Hipo = columnas 5..6 */
+    /* Hiper = columnas 7..9 */
+    .nested-table tbody tr td:nth-child(1),
+    .nested-table tbody tr td:nth-child(2),
+    .nested-table tbody tr td:nth-child(3),
+    .nested-table tbody tr td:nth-child(4) {
+      background-color: #ffffff; /* mismo color que .bg-comida */
+    }
+    .nested-table tbody tr td:nth-child(5),
+    .nested-table tbody tr td:nth-child(6) {
+      background-color: #b3cde0; /* color hipo */
+    }
+    .nested-table tbody tr td:nth-child(7),
+    .nested-table tbody tr td:nth-child(8),
+    .nested-table tbody tr td:nth-child(9) {
+      background-color: #ffe4b2; /* color hiper */
     }
   </style>
 </head>
 <body>
   <?php
-    // Obtener iniciales del usuario
+    // Iniciales del usuario
     $usuario = $_SESSION['usuario'];
     $iniciales = strtoupper(substr($usuario, 0, 2));
   ?>
@@ -178,10 +222,10 @@ function getRecordForFood($grouped, $fecha, $tipo) {
             <a class="nav-link" href="registro_controlglucosa.php">Registro Control de Glucosa (1 DIARIO)</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
+            <a class="nav-link" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="datos.php">Datos</a>
+            <a class="nav-link active" href="datos.php">Datos</a>
           </li>
         </ul>
         <div class="d-flex align-items-center ms-auto">
@@ -194,10 +238,9 @@ function getRecordForFood($grouped, $fecha, $tipo) {
   <div class="container mt-5">
     <h1 class="text-center mb-4">Registros del <?php echo "$mes/$anio"; ?></h1>
     
-    <!-- Tarjeta combinada para mostrar Control de Glucosa y Registros Combinados -->
     <div class="card shadow mb-4">
       <div class="card-header bg-info text-white">
-        <h4 class="mb-0">Registros Combinados (Control y Registros de Comida con Hipo/Hiper)</h4>
+        <h4 class="mb-0">Registros Combinados (Control y Comidas con Hipo/Hiper)</h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -206,68 +249,81 @@ function getRecordForFood($grouped, $fecha, $tipo) {
               <tr>
                 <th>DÍA</th>
                 <th>Control de Glucosa</th>
-                <th>Registros Combinados</th>
+                <th>Registros</th>
               </tr>
             </thead>
             <tbody>
-              <?php if (!empty($controlData)): ?>
-                <?php foreach ($controlData as $control): 
-                  $fecha = $control['fecha'];
-                  $dia = date("j", strtotime($fecha));
-                ?>
-                  <tr>
-                    <td><?php echo $dia; ?></td>
-                    <td class="control-info">
-                      <strong>Índice de Actividad:</strong> <?php echo htmlspecialchars($control['deporte']); ?><br>
-                      <strong>Insulina Lenta:</strong> <?php echo htmlspecialchars($control['lenta']); ?>
-                    </td>
-                    <td>
-                      <?php if (isset($comidaGrouped[$fecha])): ?>
-                        <table class="table table-sm table-bordered nested-table mb-0">
-                          <thead>
-                            <tr>
-                              <th>Tipo</th>
-                              <th>G1</th>
-                              <th>G2</th>
-                              <th>Rac.</th>
-                              <th>Insu.</th>
-                              <th>Hipo Gluc.</th>
-                              <th>Hipo Hora</th>
-                              <th>Hiper Gluc.</th>
-                              <th>Hiper Hora</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <?php foreach ($comidaGrouped[$fecha] as $comida): 
-                                  // Obtener registro de Hipoglucemia e Hiperglucemia vinculados a esta comida
-                                  $hipoRecord = getRecordForFood($hipoGrouped, $fecha, $comida['tipo_comida']);
-                                  $hiperRecord = getRecordForFood($hiperGrouped, $fecha, $comida['tipo_comida']);
-                            ?>
-                              <tr>
-                                <td><?php echo htmlspecialchars($comida['tipo_comida']); ?></td>
-                                <td><?php echo htmlspecialchars($comida['gl_1h']); ?></td>
-                                <td><?php echo htmlspecialchars($comida['gl_2h']); ?></td>
-                                <td><?php echo htmlspecialchars($comida['raciones']); ?></td>
-                                <td><?php echo htmlspecialchars($comida['insulina']); ?></td>
-                                <td><?php echo $hipoRecord ? htmlspecialchars($hipoRecord['glucosa']) : ''; ?></td>
-                                <td><?php echo $hipoRecord ? htmlspecialchars($hipoRecord['hora']) : ''; ?></td>
-                                <td><?php echo $hiperRecord ? htmlspecialchars($hiperRecord['glucosa']) : ''; ?></td>
-                                <td><?php echo $hiperRecord ? htmlspecialchars($hiperRecord['hora']) : ''; ?></td>
-                              </tr>
-                            <?php endforeach; ?>
-                          </tbody>
-                        </table>
-                      <?php else: ?>
-                        <p class="text-center"><em>Sin registros de comida</em></p>
-                      <?php endif; ?>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              <?php else: ?>
+            <?php if (!empty($controlData)): ?>
+              <?php foreach ($controlData as $control):
+                $fecha = $control['fecha'];
+                $dia = date("j", strtotime($fecha));
+              ?>
                 <tr>
-                  <td colspan="3">No hay registros de Control de Glucosa para este período.</td>
+                  <td><?php echo $dia; ?></td>
+                  <td class="control-info">
+                    <strong>Índice de Actividad:</strong> <?php echo htmlspecialchars($control['deporte']); ?><br>
+                    <strong>Insulina Lenta:</strong> <?php echo htmlspecialchars($control['lenta']); ?>
+                  </td>
+                  <td>
+                    <?php if (isset($comidaGrouped[$fecha])): ?>
+                      <!-- Tabla anidada con cabecera en 2 filas -->
+                      <table class="table table-sm table-bordered nested-table mb-0">
+                        <thead>
+                          <!-- Fila 1 del encabezado -->
+                          <tr>
+                            <th colspan="4" class="bg-comida text-center">COMIDA</th>
+                            <th colspan="2" class="bg-hipo text-center">HIPO</th>
+                            <th colspan="3" class="bg-hiper text-center">HIPER</th>
+                          </tr>
+                          <!-- Fila 2 del encabezado -->
+                          <tr>
+                            <th class="bg-comida">GL/1H</th>
+                            <th class="bg-comida">RAC</th>
+                            <th class="bg-comida">INSU</th>
+                            <th class="bg-comida">GL/2H</th>
+                            <th class="bg-hipo">GLU</th>
+                            <th class="bg-hipo">HORA</th>
+                            <th class="bg-hiper">GLU</th>
+                            <th class="bg-hiper">HORA</th>
+                            <th class="bg-hiper">CORR</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php foreach ($comidaGrouped[$fecha] as $comida):
+                            $tipo = $comida['tipo_comida'];
+                            // Buscar registros hipo/hiper que coincidan
+                            $hipoRec = getHipoForFood($fecha, $tipo, $hipoGrouped);
+                            $hiperRec = getHiperForFood($fecha, $tipo, $hiperGrouped);
+                          ?>
+                            <tr>
+                              <!-- Comida (4 columnas) -->
+                              <td><?php echo htmlspecialchars($comida['gl_1h']); ?></td>
+                              <td><?php echo htmlspecialchars($comida['raciones']); ?></td>
+                              <td><?php echo htmlspecialchars($comida['insulina']); ?></td>
+                              <td><?php echo htmlspecialchars($comida['gl_2h']); ?></td>
+                              <!-- HIPO (2 columnas) -->
+                              <td><?php echo $hipoRec ? htmlspecialchars($hipoRec['glucosa']) : ''; ?></td>
+                              <td><?php echo $hipoRec ? htmlspecialchars($hipoRec['hora']) : ''; ?></td>
+                              <!-- HIPER (3 columnas) -->
+                              <td><?php echo $hiperRec ? htmlspecialchars($hiperRec['glucosa']) : ''; ?></td>
+                              <td><?php echo $hiperRec ? htmlspecialchars($hiperRec['hora']) : ''; ?></td>
+                              <td><?php echo ($hiperRec && isset($hiperRec['correccion']))
+                                         ? htmlspecialchars($hiperRec['correccion']) : ''; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    <?php else: ?>
+                      <p class="text-center"><em>Sin registros de comida</em></p>
+                    <?php endif; ?>
+                  </td>
                 </tr>
-              <?php endif; ?>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <tr>
+                <td colspan="3">No hay registros de Control de Glucosa para este período.</td>
+              </tr>
+            <?php endif; ?>
             </tbody>
           </table>
         </div>
