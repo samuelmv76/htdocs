@@ -63,6 +63,9 @@ $iniciales = strtoupper(substr($usuario, 0, 2));
           <li class="nav-item">
             <a class="nav-link" href="datos.php">Datos</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="estadisticas.php">Estadísticas</a>
+          </li>
         </ul>
         <!-- Bloque para mostrar las iniciales del usuario a la derecha -->
         <div class="d-flex align-items-center ms-auto">

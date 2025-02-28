@@ -53,6 +53,9 @@ if (!isset($_SESSION['id_usu'])) {
           <li class="nav-item">
             <a class="nav-link active" href="datos.php">Datos</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="estadisticas.php">Estadísticas</a>
+          </li>
         </ul>
         <div class="d-flex align-items-center ms-auto">
           <div class="profile-circle"><?php echo $iniciales; ?></div>
