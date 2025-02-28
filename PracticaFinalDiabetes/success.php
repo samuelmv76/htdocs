@@ -53,7 +53,7 @@
         <p>Los datos han sido registrados correctamente.</p>
         <img src="https://cdn-icons-png.flaticon.com/512/148/148767.png" alt="Éxito" width="100">
         <div class="mt-3">
-            <a href="index.php" class="btn btn-primary">Volver al Inicio</a>
+            <a href="organizador.php" class="btn btn-primary">Volver al Inicio</a>
         </div>
     </div>
 
