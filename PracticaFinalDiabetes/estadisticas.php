@@ -99,6 +99,9 @@ $conn->close();
                       <a class="nav-link" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
                   </li>
                   <li class="nav-item">
+                      <a class="nav-link active" href="datos.php">Datos</a>
+                  </li>
+                  <li class="nav-item">
                       <a class="nav-link active" href="estadisticas.php">Estadísticas</a>
                   </li>
               </ul>
