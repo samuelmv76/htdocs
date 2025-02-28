@@ -16,7 +16,7 @@ if (!isset($_GET['mes']) || !isset($_GET['anio'])) {
 }
 $mes = $_GET['mes'];
 $anio = $_GET['anio'];
-// Creamos un patrón para filtrar las fechas (ejemplo: "2025-02-%")
+// Patrón para filtrar las fechas (por ejemplo: "2025-02-%")
 $dateFilter = $anio . "-" . $mes . "-%";
 
 // ---------------------------------------------------------------------
@@ -100,6 +100,19 @@ foreach ($hiperData as $record) {
     }
     $hiperGrouped[$fecha][] = $record;
 }
+
+// Función auxiliar: devuelve el primer registro en el grupo que coincida con el tipo de comida
+function getRecordForFood($grouped, $fecha, $tipo) {
+    if (!isset($grouped[$fecha])) {
+        return null;
+    }
+    foreach ($grouped[$fecha] as $record) {
+        if ($record['tipo_comida'] === $tipo) {
+            return $record;
+        }
+    }
+    return null;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -124,13 +137,24 @@ foreach ($hiperData as $record) {
       font-size: 1rem;
       margin-left: 10px;
     }
-    .nested-section {
-      margin-bottom: 10px;
+    .control-info {
+      width: 220px;
     }
-    .nested-section h6 {
-      margin-bottom: 5px;
-      font-weight: bold;
-      text-align: center;
+    .nested-table {
+      width: 100%;
+      table-layout: fixed;
+    }
+    .nested-table th,
+    .nested-table td {
+      padding: 8px 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* Para la columna Tipo en la tabla anidada */
+    .nested-table th:first-child,
+    .nested-table td:first-child {
+      width: 120px;
     }
   </style>
 </head>
@@ -154,10 +178,10 @@ foreach ($hiperData as $record) {
             <a class="nav-link" href="registro_controlglucosa.php">Registro Control de Glucosa (1 DIARIO)</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
+            <a class="nav-link active" href="registro_comida.php">Registro Comida (Hasta 5 diarios)</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="datos.php">Datos</a>
+            <a class="nav-link" href="datos.php">Datos</a>
           </li>
         </ul>
         <div class="d-flex align-items-center ms-auto">
@@ -173,7 +197,7 @@ foreach ($hiperData as $record) {
     <!-- Tarjeta combinada para mostrar Control de Glucosa y Registros Combinados -->
     <div class="card shadow mb-4">
       <div class="card-header bg-info text-white">
-        <h4 class="mb-0">Registros Combinados (Control y Registros de Comida/Hipo/Hiper)</h4>
+        <h4 class="mb-0">Registros Combinados (Control y Registros de Comida con Hipo/Hiper)</h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -193,95 +217,49 @@ foreach ($hiperData as $record) {
                 ?>
                   <tr>
                     <td><?php echo $dia; ?></td>
-                    <td>
+                    <td class="control-info">
                       <strong>Índice de Actividad:</strong> <?php echo htmlspecialchars($control['deporte']); ?><br>
                       <strong>Insulina Lenta:</strong> <?php echo htmlspecialchars($control['lenta']); ?>
                     </td>
                     <td>
-                      <div class="row">
-                        <!-- Columna para Comida -->
-                        <div class="col-md-4 nested-section">
-                          <h6 class="bg-secondary text-white p-1">Comida</h6>
-                          <?php if (isset($comidaGrouped[$fecha])): ?>
-                            <table class="table table-sm table-bordered mb-0">
-                              <thead>
-                                <tr>
-                                  <th>Tipo</th>
-                                  <th>G1</th>
-                                  <th>G2</th>
-                                  <th>Rac.</th>
-                                  <th>Insu.</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php foreach ($comidaGrouped[$fecha] as $comida): ?>
-                                  <tr>
-                                    <td><?php echo htmlspecialchars($comida['tipo_comida']); ?></td>
-                                    <td><?php echo htmlspecialchars($comida['gl_1h']); ?></td>
-                                    <td><?php echo htmlspecialchars($comida['gl_2h']); ?></td>
-                                    <td><?php echo htmlspecialchars($comida['raciones']); ?></td>
-                                    <td><?php echo htmlspecialchars($comida['insulina']); ?></td>
-                                  </tr>
-                                <?php endforeach; ?>
-                              </tbody>
-                            </table>
-                          <?php else: ?>
-                            <p class="text-center"><em>Sin registros</em></p>
-                          <?php endif; ?>
-                        </div>
-                        <!-- Columna para Hipoglucemia -->
-                        <div class="col-md-4 nested-section">
-                          <h6 class="bg-warning text-dark p-1">Hipoglucemia</h6>
-                          <?php if (isset($hipoGrouped[$fecha])): ?>
-                            <table class="table table-sm table-bordered mb-0">
-                              <thead>
-                                <tr>
-                                  <th>Tipo</th>
-                                  <th>Gluc.</th>
-                                  <th>Hora</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php foreach ($hipoGrouped[$fecha] as $hipo): ?>
-                                  <tr>
-                                    <td><?php echo htmlspecialchars($hipo['tipo_comida']); ?></td>
-                                    <td><?php echo htmlspecialchars($hipo['glucosa']); ?></td>
-                                    <td><?php echo htmlspecialchars($hipo['hora']); ?></td>
-                                  </tr>
-                                <?php endforeach; ?>
-                              </tbody>
-                            </table>
-                          <?php else: ?>
-                            <p class="text-center"><em>Sin registros</em></p>
-                          <?php endif; ?>
-                        </div>
-                        <!-- Columna para Hiperglucemia -->
-                        <div class="col-md-4 nested-section">
-                          <h6 class="bg-danger text-white p-1">Hiperglucemia</h6>
-                          <?php if (isset($hiperGrouped[$fecha])): ?>
-                            <table class="table table-sm table-bordered mb-0">
-                              <thead>
-                                <tr>
-                                  <th>Tipo</th>
-                                  <th>Gluc.</th>
-                                  <th>Hora</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php foreach ($hiperGrouped[$fecha] as $hiper): ?>
-                                  <tr>
-                                    <td><?php echo htmlspecialchars($hiper['tipo_comida']); ?></td>
-                                    <td><?php echo htmlspecialchars($hiper['glucosa']); ?></td>
-                                    <td><?php echo htmlspecialchars($hiper['hora']); ?></td>
-                                  </tr>
-                                <?php endforeach; ?>
-                              </tbody>
-                            </table>
-                          <?php else: ?>
-                            <p class="text-center"><em>Sin registros</em></p>
-                          <?php endif; ?>
-                        </div>
-                      </div>
+                      <?php if (isset($comidaGrouped[$fecha])): ?>
+                        <table class="table table-sm table-bordered nested-table mb-0">
+                          <thead>
+                            <tr>
+                              <th>Tipo</th>
+                              <th>G1</th>
+                              <th>G2</th>
+                              <th>Rac.</th>
+                              <th>Insu.</th>
+                              <th>Hipo Gluc.</th>
+                              <th>Hipo Hora</th>
+                              <th>Hiper Gluc.</th>
+                              <th>Hiper Hora</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php foreach ($comidaGrouped[$fecha] as $comida): 
+                                  // Obtener registro de Hipoglucemia e Hiperglucemia vinculados a esta comida
+                                  $hipoRecord = getRecordForFood($hipoGrouped, $fecha, $comida['tipo_comida']);
+                                  $hiperRecord = getRecordForFood($hiperGrouped, $fecha, $comida['tipo_comida']);
+                            ?>
+                              <tr>
+                                <td><?php echo htmlspecialchars($comida['tipo_comida']); ?></td>
+                                <td><?php echo htmlspecialchars($comida['gl_1h']); ?></td>
+                                <td><?php echo htmlspecialchars($comida['gl_2h']); ?></td>
+                                <td><?php echo htmlspecialchars($comida['raciones']); ?></td>
+                                <td><?php echo htmlspecialchars($comida['insulina']); ?></td>
+                                <td><?php echo $hipoRecord ? htmlspecialchars($hipoRecord['glucosa']) : ''; ?></td>
+                                <td><?php echo $hipoRecord ? htmlspecialchars($hipoRecord['hora']) : ''; ?></td>
+                                <td><?php echo $hiperRecord ? htmlspecialchars($hiperRecord['glucosa']) : ''; ?></td>
+                                <td><?php echo $hiperRecord ? htmlspecialchars($hiperRecord['hora']) : ''; ?></td>
+                              </tr>
+                            <?php endforeach; ?>
+                          </tbody>
+                        </table>
+                      <?php else: ?>
+                        <p class="text-center"><em>Sin registros de comida</em></p>
+                      <?php endif; ?>
                     </td>
                   </tr>
                 <?php endforeach; ?>
