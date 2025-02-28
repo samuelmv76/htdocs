@@ -1,10 +1,10 @@
 <?php
 session_start();
-
+/*
 if (isset($_SESSION['id_usu'])) {
     header("Location: index.php"); // Redirige a la página principal si ya hay sesión iniciada
     exit();
-}
+}*/
 // Incluir archivo de conexión
 include 'conexion.php';
 

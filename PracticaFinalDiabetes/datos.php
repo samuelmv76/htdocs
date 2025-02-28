@@ -83,7 +83,7 @@ foreach ($hipoData as $h) {
     $hipoGrouped[$f][] = $h;
 }
 
-// 4) Hiperglucemia (incluye 'correccion' si existe en tu tabla)
+// 4) Hiperglucemia (incluye 'correccion')
 $sqlHiper = "SELECT fecha, tipo_comida, glucosa, hora, correccion
              FROM hiperglucemia
              WHERE id_usu = ? AND fecha LIKE ?
@@ -110,24 +110,16 @@ foreach ($hiperData as $h) {
 
 // Funciones para obtener registros hipo/hiper de cada comida
 function getHipoForFood($fecha, $tipo, $hipoGrouped) {
-    if (!isset($hipoGrouped[$fecha])) {
-        return null;
-    }
+    if (!isset($hipoGrouped[$fecha])) return null;
     foreach ($hipoGrouped[$fecha] as $h) {
-        if ($h['tipo_comida'] === $tipo) {
-            return $h;
-        }
+        if ($h['tipo_comida'] === $tipo) return $h;
     }
     return null;
 }
 function getHiperForFood($fecha, $tipo, $hiperGrouped) {
-    if (!isset($hiperGrouped[$fecha])) {
-        return null;
-    }
+    if (!isset($hiperGrouped[$fecha])) return null;
     foreach ($hiperGrouped[$fecha] as $h) {
-        if ($h['tipo_comida'] === $tipo) {
-            return $h;
-        }
+        if ($h['tipo_comida'] === $tipo) return $h;
     }
     return null;
 }
@@ -158,9 +150,10 @@ function getHiperForFood($fecha, $tipo, $hiperGrouped) {
     .control-info {
       width: 220px;
     }
+    /* Permitir autoajuste de columnas y que respete el min-width en el encabezado */
     .nested-table {
       width: 100%;
-      table-layout: fixed;
+      table-layout: auto; /* Cambiado a auto para que respete min-width */
     }
     .nested-table th,
     .nested-table td {
@@ -168,6 +161,11 @@ function getHiperForFood($fecha, $tipo, $hiperGrouped) {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    /* Clase para hacer más ancho el encabezado de COMIDA */
+    .comida-header {
+      min-width: 250px; /* Ajusta según prefieras */
     }
 
     /* Colores para la cabecera */
@@ -181,25 +179,8 @@ function getHiperForFood($fecha, $tipo, $hiperGrouped) {
       background-color: #ffe4b2; /* color suave para HIPER */
     }
 
-    /* Aplicar el color de fondo a las columnas Hipo e Hiper también en las celdas del cuerpo */
-    /* Comida = columnas 1..4 */
-    /* Hipo = columnas 5..6 */
-    /* Hiper = columnas 7..9 */
-    .nested-table tbody tr td:nth-child(1),
-    .nested-table tbody tr td:nth-child(2),
-    .nested-table tbody tr td:nth-child(3),
-    .nested-table tbody tr td:nth-child(4) {
-      background-color: #ffffff; /* mismo color que .bg-comida */
-    }
-    .nested-table tbody tr td:nth-child(5),
-    .nested-table tbody tr td:nth-child(6) {
-      background-color: #b3cde0; /* color hipo */
-    }
-    .nested-table tbody tr td:nth-child(7),
-    .nested-table tbody tr td:nth-child(8),
-    .nested-table tbody tr td:nth-child(9) {
-      background-color: #ffe4b2; /* color hiper */
-    }
+    /* Color de fondo en las celdas (opcional si quieres colorear columnas) */
+    /* ... */
   </style>
 </head>
 <body>
@@ -271,12 +252,14 @@ function getHiperForFood($fecha, $tipo, $hiperGrouped) {
                         <thead>
                           <!-- Fila 1 del encabezado -->
                           <tr>
-                            <th colspan="4" class="bg-comida text-center">COMIDA</th>
+                            <!-- Añadimos la clase comida-header para darle más ancho -->
+                            <th colspan="5" class="bg-comida text-center comida-header">COMIDA</th>
                             <th colspan="2" class="bg-hipo text-center">HIPO</th>
                             <th colspan="3" class="bg-hiper text-center">HIPER</th>
                           </tr>
                           <!-- Fila 2 del encabezado -->
                           <tr>
+                            <th class="bg-comida">TIPO</th>
                             <th class="bg-comida">GL/1H</th>
                             <th class="bg-comida">RAC</th>
                             <th class="bg-comida">INSU</th>
@@ -291,20 +274,21 @@ function getHiperForFood($fecha, $tipo, $hiperGrouped) {
                         <tbody>
                           <?php foreach ($comidaGrouped[$fecha] as $comida):
                             $tipo = $comida['tipo_comida'];
-                            // Buscar registros hipo/hiper que coincidan
+                            // Vincular con hipo/hiper
                             $hipoRec = getHipoForFood($fecha, $tipo, $hipoGrouped);
                             $hiperRec = getHiperForFood($fecha, $tipo, $hiperGrouped);
                           ?>
                             <tr>
-                              <!-- Comida (4 columnas) -->
+                              <!-- Comida -->
+                              <td><?php echo htmlspecialchars($comida['tipo_comida']); ?></td>
                               <td><?php echo htmlspecialchars($comida['gl_1h']); ?></td>
                               <td><?php echo htmlspecialchars($comida['raciones']); ?></td>
                               <td><?php echo htmlspecialchars($comida['insulina']); ?></td>
                               <td><?php echo htmlspecialchars($comida['gl_2h']); ?></td>
-                              <!-- HIPO (2 columnas) -->
+                              <!-- HIPO -->
                               <td><?php echo $hipoRec ? htmlspecialchars($hipoRec['glucosa']) : ''; ?></td>
                               <td><?php echo $hipoRec ? htmlspecialchars($hipoRec['hora']) : ''; ?></td>
-                              <!-- HIPER (3 columnas) -->
+                              <!-- HIPER -->
                               <td><?php echo $hiperRec ? htmlspecialchars($hiperRec['glucosa']) : ''; ?></td>
                               <td><?php echo $hiperRec ? htmlspecialchars($hiperRec['hora']) : ''; ?></td>
                               <td><?php echo ($hiperRec && isset($hiperRec['correccion']))

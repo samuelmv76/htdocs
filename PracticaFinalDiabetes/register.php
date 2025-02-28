@@ -1,9 +1,10 @@
 <?php
 session_start();
+/*
 if (isset($_SESSION['id_usu'])) {
     header("Location: index.php"); // Redirige a la página principal si ya hay sesión iniciada
     exit();
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="es">
