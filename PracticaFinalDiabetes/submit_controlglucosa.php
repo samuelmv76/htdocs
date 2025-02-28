@@ -8,23 +8,32 @@ if (!isset($_SESSION['id_usu'])) {
 }
 
 // Obtener datos del formulario
-$fecha = $_POST['fecha'];
+$fecha   = $_POST['fecha'];
 $deporte = $_POST['deporte'];
-$lenta = $_POST['lenta'];
+$lenta   = $_POST['lenta'];
+$id_usu  = $_SESSION['id_usu'];
 
-$id_usu=$_SESSION['id_usu'];
+// Comprobar si ya existe un registro para esa fecha y usuario
+$sql_check = "SELECT * FROM control_glucosa WHERE fecha = ? AND id_usu = ? LIMIT 1";
+$stmt = $conn->prepare($sql_check);
+$stmt->bind_param("si", $fecha, $id_usu);
+$stmt->execute();
+$stmt->store_result();
 
-// Insertar en CONTROL_GLUCOSA  
-$sql_glucosa = "INSERT INTO control_glucosa (fecha, deporte, lenta, id_usu) 
-                VALUES (?, ?, ?, ?)";
+if ($stmt->num_rows > 0) {
+    // Ya existe un registro para esa fecha, se muestra un error
+    echo "Error: Ya existe un registro de control de glucosa para la fecha $fecha.";
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+$stmt->close();
+
+// Insertar el nuevo registro en control_glucosa  
+$sql_glucosa = "INSERT INTO control_glucosa (fecha, deporte, lenta, id_usu) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql_glucosa);
 $stmt->bind_param("siii", $fecha, $deporte, $lenta, $id_usu);
 $stmt->execute();
-//Control de glucosa tiene que ir en otro lado y comida tiene que insertar la fecha
-
-//Un control_GLUCOSA al dia  y 5 comidas al dia ,para insertar en comida se necesita el id de control_glucosa,
-//por lo que se debe hacer un select para obtener el id de control_glucosa y luego insertar en comida
-//Obtener el id de control_glucosa
 
 // Cerrar conexión
 $stmt->close();
