@@ -255,17 +255,13 @@ $iniciales = strtoupper(substr($usuario, 0, 2));
     document.getElementById("chk_hiper").addEventListener("change", function () {
       document.getElementById("chk_hipo").checked = false;
       document.getElementById("hipoglucemia").classList.add("hidden");
-      document
-        .getElementById("hiperglucemia")
-        .classList.toggle("hidden", !this.checked);
+      document.getElementById("hiperglucemia").classList.toggle("hidden", !this.checked);
     });
 
     document.getElementById("chk_hipo").addEventListener("change", function () {
       document.getElementById("chk_hiper").checked = false;
       document.getElementById("hiperglucemia").classList.add("hidden");
-      document
-        .getElementById("hipoglucemia")
-        .classList.toggle("hidden", !this.checked);
+      document.getElementById("hipoglucemia").classList.toggle("hidden", !this.checked);
     });
   </script>
 
