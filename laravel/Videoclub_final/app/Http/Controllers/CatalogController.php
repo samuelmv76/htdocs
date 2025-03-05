@@ -11,7 +11,7 @@ class CatalogController extends Controller
 			'title' => 'El padrino',
 			'year' => '1972', 
 			'director' => 'Francis Ford Coppola', 
-			'poster' => 'http://ia.media-imdb.com/images/M/MV5BMjEyMjcyNDI4MF5BMl5BanBnXkFtZTcwMDA5Mzg3OA@@._V1_SX214_AL_.jpg', 
+			'poster' => 'https://m.media-amazon.com/images/I/81wwAgKLc+L._AC_UF894,1000_QL80_.jpg', 
 			'rented' => false, 
 			'synopsis' => 'Don Vito Corleone (Marlon Brando) es el respetado y temido jefe de una de las cinco familias de la mafia de Nueva York. Tiene cuatro hijos: Connie (Talia Shire), el impulsivo Sonny (James Caan), el pusilánime Freddie (John Cazale) y Michael (Al Pacino), que no quiere saber nada de los negocios de su padre. Cuando Corleone, en contra de los consejos de \'Il consigliere\' Tom Hagen (Robert Duvall), se niega a intervenir en el negocio de las drogas, el jefe de otra banda ordena su asesinato. Empieza entonces una violenta y cruenta guerra entre las familias mafiosas.'
 		),
@@ -168,7 +168,6 @@ class CatalogController extends Controller
 			'synopsis' => 'Un joven hastiado de su gris y monótona vida lucha contra el insomnio. En un viaje en avión conoce a un carismático vendedor de jabón que sostiene una teoría muy particular: el perfeccionismo es cosa de gentes débiles; sólo la autodestrucción hace que la vida merezca la pena. Ambos deciden entonces fundar un club secreto de lucha, donde poder descargar sus frustaciones y su ira, que tendrá un éxito arrollador.'
 		)
 	);
-
     public function getIndex()
     {
         return view('catalog.index', array('arrayPeliculas'=>$this->arrayPeliculas));
@@ -176,7 +175,7 @@ class CatalogController extends Controller
 
     public function getShow($id)
     {
-        return view('catalog.show', array('id'=>$id));
+        return view('catalog.show', array('id'=>$id), array('arrayPeliculas'=>$this->arrayPeliculas));
     }
 
     public function getCreate()
@@ -189,4 +188,3 @@ class CatalogController extends Controller
         return view('catalog.edit', array('id'=>$id));
     }
 }
-?>
