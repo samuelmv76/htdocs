@@ -15,9 +15,14 @@ Route::get('logout', function () {
     return 'Logout usuario';
 });
 
-Route::get('catalog', [CatalogController::class, 'getIndex']);
+//Route::get('catalog', function () {
+///    return view('catalog.index');
+   /*  return 'Login usuario'; */
+//});
 
-Route::get('catalog/show/{id}', [CatalogController::class, 'getShow']);
+Route::get('/catalog', [CatalogController::class, 'getIndex']);
+
+Route::get('/catalog/show/{id}', [CatalogController::class, 'getShow']);
 
 Route::get('catalog/create', [CatalogController::class, 'getCreate']);
 
