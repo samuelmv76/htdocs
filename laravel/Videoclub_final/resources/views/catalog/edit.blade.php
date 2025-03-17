@@ -15,7 +15,6 @@
     <p><strong>Título:</strong> {{ $pelicula->title }}</p>
     <p><strong>Año:</strong> {{ $pelicula->year }}</p>
     
-    <!-- Puedes agregar más campos aquí si la película tiene más información -->
     
     <form action="" method="POST">
         @csrf

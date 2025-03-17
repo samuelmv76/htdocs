@@ -14,10 +14,7 @@ class CatalogController extends Controller
 	3- Método edit
 	 */
 
-    public function getIndex()
-    {
-        return view('catalog.index', array('arrayPeliculas'=>$this->arrayPeliculas));
-    }
+    
 
     public function getShow()
     {
@@ -33,6 +30,19 @@ class CatalogController extends Controller
     public function getCreate()
     {
         return view('catalog.create');
+    }
+
+    public function getModify($id)
+    {
+        $pelicula = Pelis::find($id);
+
+    // Si no se encuentra la película, redirigir con un mensaje de error
+    if (!$pelicula) {
+        return redirect()->route('catalogshow')->with('error', 'Pelicula no encontrada');
+    }
+
+    // Pasar la película a la vista
+    return view('catalog.modify', compact('pelicula'));
     }
 
 	public function getEdit($id)
@@ -60,6 +70,34 @@ class CatalogController extends Controller
         }
         return redirect()->route('catalogshow');
     }
+
+    public function mstore(Request $request, $id)
+{
+    // Validar los datos del formulario
+    if (!empty($request->title) && !empty($request->year) && !empty($request->director)) {
+
+        // Buscar la película por el id (no es necesario usar un ternario aquí)
+        $pelicula = Pelis::find($id);
+
+        // Si no se encuentra la película, redirigir con un mensaje de error
+        if (!$pelicula) {
+            return redirect()->route('catalogshow')->with('error', 'Pelicula no encontrada');
+        }
+
+        // Asignar los valores del formulario a la película
+        $pelicula->title = $request->post('title');
+        $pelicula->year = $request->post('year');
+        $pelicula->director = $request->post('director');
+        $pelicula->poster = $request->post('poster');
+        $pelicula->synopsis = $request->post('synopsis');
+
+        // Guardar la película (ya sea nueva o modificada)
+        $pelicula->save();
+    }
+
+    // Redirigir al catálogo
+    return redirect()->route('catalogshow');
+}
 
 
 }
