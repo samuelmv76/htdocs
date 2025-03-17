@@ -19,14 +19,13 @@ class CatalogController extends Controller
         return view('catalog.index', array('arrayPeliculas'=>$this->arrayPeliculas));
     }
 
-    public function getShow($id)
+    public function getShow()
     {
-        // Obtener todos los registros de la tabla 'pelis'
-        $peliculas = Pelis::all();  // Esto traerá todas las películas de la tabla 'pelis'
+        
+        $peliculas = Pelis::all();  
 
         // Pasar los datos a la vista
         return view('catalog.show', [
-            'id' => $id,
             'arrayPeliculas' => $peliculas
         ]);
     }
@@ -47,5 +46,21 @@ class CatalogController extends Controller
             'pelicula' => $pelicula // Pasamos la película entera a la vista
         ]);
     }
+
+    public function store(Request $request){
+        if(!empty($request->title) && !empty($request->year) && !empty($request->director)){
+           $p = new Pelis;
+            $p -> title = $request->post('title');
+            $p -> year = $request->post('year');
+            $p -> director = $request->post('director');
+            $p -> poster = $request->post('poster');
+            $p -> synopsis = $request->post('sysnopsis');
+            $p -> save();
+
+        }
+        return redirect()->route('catalogshow');
+    }
+
+
 }
 ?>
